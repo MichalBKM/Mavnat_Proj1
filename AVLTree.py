@@ -1,8 +1,9 @@
-#username - complete info
-#id1      - complete info 
-#name1    - complete info 
-#id2      - complete info
-#name2    - complete info  
+#username1 - Berkheim1
+#id1      - 207795154
+#name1    - Michal Berkheim
+#username2 - ???
+#id2      - ???
+#name2    - Hila Perry
 
 """A class represnting a node in an AVL tree"""
 
@@ -79,10 +80,10 @@ class AVLNode(object):
 	@param node: a node
 	"""
 	def set_left(self, node):
-                self.left = node
-                node.parent = self
-                self.height = 1 + max(self.left.height,self.right.height)
-                node.height = self.height - 1
+		self.left = node
+		node.parent = self
+		self.height = 1 + max(self.left.height,self.right.height)
+		node.height = self.height - 1
 		return None
 
 
@@ -92,10 +93,10 @@ class AVLNode(object):
 	@param node: a node
 	"""
 	def set_right(self, node):
-                self.right = node
-                node.parent = self
-                self.height = 1 + max(self.left.height,self.right.height)
-                node.height = self.height - 1
+		self.right = node
+		node.parent = self
+		self.height = 1 + max(self.left.height,self.right.height)
+		node.height = self.height - 1
 		return None
 
 	"""sets parent
@@ -104,13 +105,13 @@ class AVLNode(object):
 	@param node: a node
 	"""
 	def set_parent(self, node):
-                self.parent = node
-                if node.key > self.key:
-                        node.left = self
-                else
-                        node.right = self
-                node.height = 1 + max(node.left.height,node.right.height)
-                self.height = node.height - 1
+		self.parent = node
+		if node.key > self.key:
+			node.left = self
+		else:
+			node.right = self
+		node.height = 1 + max(node.left.height,node.right.height)
+		self.height = node.height - 1
 		return None
 
 
@@ -120,7 +121,7 @@ class AVLNode(object):
 	@param key: key
 	"""
 	def set_key(self, key):
-                self.key = key
+		self.key = key
 		return None
 
 
@@ -130,7 +131,7 @@ class AVLNode(object):
 	@param value: data
 	"""
 	def set_value(self, value):
-                self.value = value
+		self.value = value
 		return None
 
 
@@ -140,7 +141,7 @@ class AVLNode(object):
 	@param h: the height
 	"""
 	def set_height(self, h):
-                self.height = h
+		self.height = h
 		return None
 
 
@@ -150,9 +151,17 @@ class AVLNode(object):
 	@returns: False if self is a virtual node, True otherwise.
 	"""
 	def is_real_node(self):
-                return True if self.key!=None else False
+		return True if self.key!=None else False
 
-
+	#avl_to_array_helper
+	def inorder(self):
+		arr = []
+		if self==None:
+			return None
+		self.left.inorder()
+		arr.append((self.key,self.value))
+		self.right.inorder()
+		return arr
 
 """
 A class implementing the ADT Dictionary, using an AVL tree.
@@ -179,14 +188,13 @@ class AVLTree(object):
 	@returns: the AVLNode corresponding to key or None if key is not found.
 	"""
 	def search(self, key): #recursive-solution
-                x = self.root
-                if x=None or key=x.key:
-                        return x
-                else if key<x.key:
-                        return search(x.left, key)
-                else:
-                        return search(x.right, key)
-		return None
+		x = self.root
+		if x==None or key==x.key:
+			return x
+		if key<x.key:
+			return AVLTree.search(x.left,key)
+		else:
+			return AVLTree.search(x.right,key)
 
 
 	"""inserts val at position i in the dictionary
@@ -200,36 +208,37 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 	def insert(self, key, val): #don't forget to return the num of rotations + size updating
-                if self.root==None:
-                        self.root=AVLNode(self,key,val)
-                        set_left(self.root,AVLNode(self,None,None))
-                        set_right(self.root,AVLNode(self,None,None))
-                else:
-                        Tree_Insert(self.root,key,val)
-		return -1 #here
+		if self.root==None:
+			self.root = AVLNode(key,val)
+			AVLNode.set_left(self.root, AVLNode(None, None))
+			AVLNode.set_right(self.root,AVLNode(None,None))
+		else:
+			self.root.Tree_insert(key, val)
 
-        def Tree_insert(self, key, val):
-                x = self.root
-                z = AVLNode(self, key, val)
-                y = Tree_position(x, z.key)
-                z.parent = y
-                if z.key<y.key:
-                        y.left = z
-                else:
-                        y.right = z
+	def Tree_position(self,key):
+		x = self.root
+		y = None
+		while x!=None:
+			y = x
+		if key==x.key:
+			return x
+		if key < x.key:
+			x = x.left
+		else:
+			x = x.right
+		return y
 
-        def Tree_position(self, key):
-                x = self.root
-                y = None
-                while x!=None:
-                        y = x
-                if key==x.key:
-                        return x
-                else if key<x.key:
-                        x = x.left
-                else:
-                        x = x.right
-                return y
+	def Tree_insert(self,key,val):
+		x = self.root
+		z = AVLNode(self,key,val)
+		y = self.Tree_position(x, z.key)
+		z.parent = y
+		if z.key < y.key:
+			y.left = z
+		else:
+			y.right = z
+
+
                         
         
 	"""deletes node from the dictionary
@@ -249,13 +258,9 @@ class AVLTree(object):
 	@returns: a sorted list according to key of tuples (key, value) representing the data structure
 	"""
 	def avl_to_array(self):
-                arr = []
-                x = self.root
-                if x!=None:
-                        inorder_walk(x.left)
-                        arr.append((x.key,x.value))
-                        inorder_walk(x.right)
-                return arr
+		return AVLNode.inorder(self.get_root())
+
+
 
 
 	"""returns the number of items in dictionary 
