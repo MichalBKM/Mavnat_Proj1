@@ -1,8 +1,8 @@
 #username1 - Berkheim1
 #id1      - 207795154
 #name1    - Michal Berkheim
-#username2 - ???
-#id2      - ???
+#username2 - hilaperry
+#id2      - 212648547
 #name2    - Hila Perry
 
 """A class represnting a node in an AVL tree"""
@@ -21,6 +21,7 @@ class AVLNode(object):
 		self.right = None
 		self.parent = None
 		self.height = -1
+		self.size = 1
 		
 
 	"""returns the left child
@@ -207,13 +208,45 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-	def insert(self, key, val): #don't forget to return the num of rotations + size updating
+	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
+		rebalancing = 0
 		if self.root==None:
 			self.root = AVLNode(key,val)
 			AVLNode.set_left(self.root, AVLNode(None, None))
 			AVLNode.set_right(self.root,AVLNode(None,None))
 		else:
-			self.root.Tree_insert(key, val)
+			z = AVLNode(self, key, val)
+			self.root.Tree_insert(z)
+			y = z.parent
+			while y.is_real_node:
+				bf = self.BF(y)
+				if -2<bf<2 and y.height == 1:
+					return rebalancing
+				elif -2<bf<2 and y.height == 0:
+					y = y.parent
+				else:
+					if bf == 2:
+						if self.BF(y.left) == 1:
+							self.Right_rotation(self, y, y.left)
+							rebalancing += 1
+						else:
+							self.Left_rotation(self, y, y.left)
+							self.Right_rotation(self, y, y.left)
+							rebalancing += 2
+					else:
+						if self.BF(y.left) == -1:
+							self.Left_rotation(self, y, y.right)
+							rebalancing += 1
+						else:
+							self.Right_rotation(self, y, y.right)
+							self.Left_rotation(self, y, y.right)
+							rebalancing += 2
+					return rebalancing
+
+
+	@staticmethod
+	def BF(node):
+		return node.left.height - node.right.height
 
 	def Tree_position(self,key):
 		x = self.root
@@ -228,9 +261,9 @@ class AVLTree(object):
 			x = x.right
 		return y
 
-	def Tree_insert(self,key,val):
+	def Tree_insert(self,node):
 		x = self.root
-		z = AVLNode(self,key,val)
+		z = node
 		y = self.Tree_position(x, z.key)
 		z.parent = y
 		if z.key < y.key:
@@ -238,6 +271,35 @@ class AVLTree(object):
 		else:
 			y.right = z
 
+	def Right_rotation(self,A,B): #TODO update height and size
+		if B.parent.left == B: #check if I need to implement __eq__
+			flag = True
+		else:
+			flag = False
+		B.left = A.right
+		B.left.parent = B
+		A.right = B
+		A.parent = B.parent
+		if flag:
+			A.parent.left = A
+		else:
+			A.parent.right = A
+		B.parent = A
+
+	def Left_rotation(self,A,B): #TODO update height and size
+		if B.parent.left == B: #check if I need to implement __eq__
+			flag = True
+		else:
+			flag = False
+		B.right = A.left
+		B.right.parent = B
+		A.left = B
+		A.parent = B.parent
+		if flag:
+			A.parent.left = A
+		else:
+			A.parent.right = A
+		B.parent = A
 
                         
         
@@ -250,6 +312,22 @@ class AVLTree(object):
 	"""
 	def delete(self, node): #TODO + don't forget to return the num of rotations + size updating
 		return -1
+
+	@staticmethod
+	def minimum(node):
+		while node.left.is_real_node:
+			node = node.left
+		return node
+
+
+	def successor(self, x):
+		if x.right.is_real_node:
+			return self.minimum(x.right)
+		y = x.parent
+		while y.is_real_node and (x == y.right):
+			x = y
+			y = x.parent
+		return y
 
 
 	"""returns an array representing dictionary 
