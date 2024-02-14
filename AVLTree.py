@@ -154,16 +154,6 @@ class AVLNode(object):
 	def is_real_node(self):
 		return True if self.key!=None else False
 
-	#avl_to_array_helper
-	def inorder(self):
-		arr = []
-		if self==None:
-			return None
-		self.left.inorder()
-		arr.append((self.key,self.value))
-		self.right.inorder()
-		return arr
-
 """
 A class implementing the ADT Dictionary, using an AVL tree.
 """
@@ -208,7 +198,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
+	def insert(self, key, val): #TODO don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
 		if self.root==None:
 			self.root = AVLNode(key,val)
@@ -245,10 +235,10 @@ class AVLTree(object):
 
 
 	@staticmethod
-	def BF(node):
+	def BF(node): #Balance_Factor
 		return node.left.height - node.right.height
 
-	def Tree_position(self,key):
+	def Tree_position(self, key):
 		x = self.root
 		y = None
 		while x!=None:
@@ -264,7 +254,7 @@ class AVLTree(object):
 	def Tree_insert(self,node):
 		x = self.root
 		z = node
-		y = self.Tree_position(x, z.key)
+		y = self.Tree_position(z.key)
 		z.parent = y
 		if z.key < y.key:
 			y.left = z
@@ -278,8 +268,16 @@ class AVLTree(object):
 			flag = False
 		return flag
 
+	def is_right_child(self, node):
+		if node.parent.right.key == node.key:
+			flag = True
+		else:
+			flag = False
+		return flag
+
+
 	def Right_rotation(self,A,B): #TODO update height and size
-		flag = self.is_left_child(self, B)
+		flag = self.is_left_child(B)
 		B.left = A.right
 		B.left.parent = B
 		A.right = B
@@ -290,8 +288,9 @@ class AVLTree(object):
 			A.parent.right = A
 		B.parent = A
 
+
 	def Left_rotation(self,A,B): #TODO update height and size
-		flag = self.is_left_child(self, B)
+		flag = self.is_left_child(B)
 		B.right = A.left
 		B.right.parent = B
 		A.left = B
@@ -302,8 +301,7 @@ class AVLTree(object):
 			A.parent.right = A
 		B.parent = A
 
-                        
-        
+
 	"""deletes node from the dictionary
 
 	@type node: AVLNode
@@ -319,8 +317,6 @@ class AVLTree(object):
 				if self.is_left_child(self, z):
 					virtual = AVLNode(None)
 					
-
-
 
 
 
@@ -347,9 +343,17 @@ class AVLTree(object):
 	@returns: a sorted list according to key of tuples (key, value) representing the data structure
 	"""
 	def avl_to_array(self):
-		return AVLNode.inorder(self.get_root())
+		return self.list_Inorder([])
 
-
+	#avl_to_array helper
+	def list_Inorder(self, rlist):
+		x = self.get_root()
+		if x==None:
+			return []
+		x.left.store_Inorder(rlist)
+		rlist.append((x.key,x.value))
+		x.right.store_Inorder(rlist)
+		return rlist
 
 
 	"""returns the number of items in dictionary 
@@ -357,7 +361,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of items in dictionary 
 	"""
-	def size(self):
+	def size(self): #TODO - because now we don't have size attribute in the tree
 		return self.size	
 
 	
@@ -371,9 +375,26 @@ class AVLTree(object):
 	dictionary smaller than node.key, right is an AVLTree representing the keys in the 
 	dictionary larger than node.key.
 	"""
-	def split(self, node): #michal
-		return None
+	def split(self, node): #T1<Node<T2
+		T1 = AVLTree()
+		T2 = AVLTree()
+		#joining subtrees to create T1
+		succ = self.successor(node)
+		x = node
+		while (x.key<succ.key):
+			tmp1 = x.parent.left.join(x.parent, x.left)
+			x = tmp1
+		if (self.is_right_child(succ)):
+			T1 = succ.parent.left.join(succ.parent, x)
+		else:
+			#TODO
 
+
+
+	def is_root_of_subtree(self,node):
+		if self.get_root()==node:
+			return True
+		return False
 	
 	"""joins self with key and another AVLTree
 
