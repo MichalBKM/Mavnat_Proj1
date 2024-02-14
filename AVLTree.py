@@ -241,7 +241,7 @@ class AVLTree(object):
 							self.Right_rotation(self, y, y.right)
 							self.Left_rotation(self, y, y.right)
 							rebalancing += 2
-					return rebalancing
+			return rebalancing
 
 
 	@staticmethod
@@ -271,11 +271,15 @@ class AVLTree(object):
 		else:
 			y.right = z
 
-	def Right_rotation(self,A,B): #TODO update height and size
-		if B.parent.left == B: #check if I need to implement __eq__
+	def is_left_child(self, node):
+		if node.parent.left.key == node.key:
 			flag = True
 		else:
 			flag = False
+		return flag
+
+	def Right_rotation(self,A,B): #TODO update height and size
+		flag = self.is_left_child(self, B)
 		B.left = A.right
 		B.left.parent = B
 		A.right = B
@@ -287,10 +291,7 @@ class AVLTree(object):
 		B.parent = A
 
 	def Left_rotation(self,A,B): #TODO update height and size
-		if B.parent.left == B: #check if I need to implement __eq__
-			flag = True
-		else:
-			flag = False
+		flag = self.is_left_child(self, B)
 		B.right = A.left
 		B.right.parent = B
 		A.left = B
@@ -310,8 +311,18 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-	def delete(self, node): #TODO + don't forget to return the num of rotations + size updating
-		return -1
+	def delete(self, z): #TODO + don't forget to return the num of rotations + size updating
+		if self.size == 1:
+			self.root = None
+		else:
+			if z.height == 0:
+				if self.is_left_child(self, z):
+					virtual = AVLNode(None)
+					
+
+
+
+
 
 	@staticmethod
 	def minimum(node):
@@ -360,7 +371,7 @@ class AVLTree(object):
 	dictionary smaller than node.key, right is an AVLTree representing the keys in the 
 	dictionary larger than node.key.
 	"""
-	def split(self, node):
+	def split(self, node): #michal
 		return None
 
 	
@@ -376,7 +387,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the absolute value of the difference between the height of the AVL trees joined
 	"""
-	def join(self, tree2, key, val):
+	def join(self, tree2, key, val): #hila
 		return None
 
 
