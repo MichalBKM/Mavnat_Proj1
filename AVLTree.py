@@ -447,19 +447,29 @@ class AVLTree(object):
 	dictionary smaller than node.key, right is an AVLTree representing the keys in the 
 	dictionary larger than node.key.
 	"""
-	def split(self, node): #T1<Node<T2
-		T1 = AVLTree()
-		T2 = AVLTree()
-		#joining subtrees to create T1
-		succ = self.successor(node)
-		x = node
-		while (x.key<succ.key):
-			tmp1 = x.parent.left.join(x.parent, x.left)
-			x = tmp1
-		if (self.is_right_child(succ)):
-			T1 = succ.parent.left.join(succ.parent, x)
-		else:
-			#TODO
+
+	def split(self, node):
+		left_tree = AVLTree()  # left_tree<NODE
+		right_tree = AVLTree()  # NODE<right_tree
+		left_tree.root, right_tree.root = self.split_helper(self.root, node, left_tree,
+															right_tree)  # setting the roots for each tree
+		left_tree = left_tree.join(node.left, left_tree.root.key,
+								   left_tree.root.value)  # join with the left son of splitkey (node)
+		right_tree = node.right.join(right_tree, right_tree.root.key,
+									 right_tree.root.value)  # join with the right son of splitkey (node)
+		return [left_tree, right_tree]
+
+	def split_helper(self, node, splitkey, left_tree, right_tree):  # recursive helper function
+		if AVLNode.is_real_node(node) == False:
+			return None, None
+		if node.key < splitkey:
+			left_subtree, right_subtree = self.split_helper(node.right, splitkey, left_tree, right_tree)
+			left_tree = left_tree.join(right_subtree, node.key, node.value)
+			return node, right_subtree
+		if node.key > splitkey:
+			left_subtree, right_subtree = self.split_helper(node.left, splitkey, left_tree, right_tree)
+			right_tree = left_subtree.join(right_tree, node.key, node.value)
+			return left_subtree, node
 
 
 
