@@ -83,7 +83,7 @@ class AVLNode(object):
 	def set_left(self, node):
 		self.left = node
 		node.parent = self
-		self.height = 1 + max(self.left.height,self.right.height)
+		self.height = 1 + max(self.left.height, self.right.height)
 		node.height = self.height - 1
 		return None
 
@@ -96,7 +96,7 @@ class AVLNode(object):
 	def set_right(self, node):
 		self.right = node
 		node.parent = self
-		self.height = 1 + max(self.left.height,self.right.height)
+		self.height = 1 + max(self.left.height, self.right.height)
 		node.height = self.height - 1
 		return None
 
@@ -154,6 +154,17 @@ class AVLNode(object):
 	def is_real_node(self):
 		return True if self.key!=None else False
 
+	def set_sons_to_virtual(self):
+		virtual_left = AVLNode(None, None)
+		virtual_right = AVLNode(None, None)
+		virtual_left.set_parent(self.parent)
+		self.parent.set_left(virtual_left)
+		virtual_right.set_parent(self.parent)
+		self.parent.set_right(virtual_left)
+
+	def BF(self): #Balance_Factor
+		return self.left.height - self.right.height
+
 """
 A class implementing the ADT Dictionary, using an AVL tree.
 """
@@ -200,43 +211,26 @@ class AVLTree(object):
 	"""
 	def insert(self, key, val): #TODO don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
-		if self.root==None:
+		if self.root is None:
 			self.root = AVLNode(key,val)
 			AVLNode.set_left(self.root, AVLNode(None, None))
 			AVLNode.set_right(self.root,AVLNode(None,None))
 		else:
-			z = AVLNode(self, key, val)
-			self.root.Tree_insert(z)
+			z = AVLNode(key, val)
+			self.Tree_insert(z)
 			y = z.parent
 			while y.is_real_node:
-				bf = self.BF(y)
-				if -2<bf<2 and y.height == 1:
-					return rebalancing
-				elif -2<bf<2 and y.height == 0:
+				bf = y.BF
+				if -2<bf<2 and y.get_height == 1:
+					break
+				elif -2<bf<2 and y.get_height == 0:
 					y = y.parent
 				else:
-					if bf == 2:
-						if self.BF(y.left) == 1:
-							self.Right_rotation(self, y, y.left)
-							rebalancing += 1
-						else:
-							self.Left_rotation(self, y, y.left)
-							self.Right_rotation(self, y, y.left)
-							rebalancing += 2
-					else:
-						if self.BF(y.left) == -1:
-							self.Left_rotation(self, y, y.right)
-							rebalancing += 1
-						else:
-							self.Right_rotation(self, y, y.right)
-							self.Left_rotation(self, y, y.right)
-							rebalancing += 2
-			return rebalancing
+					rebalancing += self.perform_rotation(y)
 
+		self.size += 1
+		return rebalancing
 
-	@staticmethod
-	def BF(node): #Balance_Factor
-		return node.left.height - node.right.height
 
 	def Tree_position(self, key):
 		x = self.root
@@ -287,6 +281,7 @@ class AVLTree(object):
 		else:
 			A.parent.right = A
 		B.parent = A
+		return None
 
 
 	def Left_rotation(self,A,B): #TODO update height and size
@@ -300,6 +295,27 @@ class AVLTree(object):
 		else:
 			A.parent.right = A
 		B.parent = A
+		return None
+
+
+	def perform_rotation(self, y):
+		if y.BF == 2:
+			if y.left.BF == -1:
+				self.Left_rotation(y, y.get_left)
+				self.Right_rotation(y, y.get_left)
+				rebalancing = 2
+			else:
+				self.Right_rotation(y, y.get_left)
+				rebalancing = 1
+		else:
+			if y.left.BF == 1:
+				self.Right_rotation(y, y.get_right)
+				self.Left_rotation(y, y.get_right)
+				rebalancing = 2
+			else:
+				self.Left_rotation(y, y.get_right)
+				rebalancing = 1
+		return rebalancing
 
 
 	"""deletes node from the dictionary
@@ -310,18 +326,73 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 	def delete(self, z): #TODO + don't forget to return the num of rotations + size updating
+		rebalancing = 0
 		if self.size == 1:
 			self.root = None
 		else:
+			x = z.get_parent
+			prev_height = x.get_height
 			if z.height == 0:
-				if self.is_left_child(self, z):
-					virtual = AVLNode(None)
+				if z.parent.right.is_real_node and z.parent.left.is_real_node:
+					if z.is_left_child:
+						z.parent.left = None
+					else:
+						z.parent.left = None
+
+				else:
+					z.set_sons_to_virtual()
+			elif z.right is None or z.left is None:
+				if z.is_left_child:
+					if z.get_left is not None:
+						z.get_left.set_parent(z.parent)
+						z.get_parent.set_left(z.left)
+					else:
+						z.get_right.set_parent(z.parent)
+						z.get_parent.set_left(z.right)
+				else:
+					if z.left is not None:
+						z.get_left.set_parent(z.parent)
+						z.get_parent.set_right(z.left)
+					else:
+						z.get_right.set_parent(z.parent)
+						z.get_parent.set_right(z.right)
+			else:
+				y = self.successor(z)
+				if y.get_right is None:
+					if not y.get_parent.right.is_real_node:
+						y.get_parent.set_sons_to_virtual()
+					else:
+						y.parent.left = None
+				else:
+					y.get_right.set_parent(y.get_parent)
+					y.get_parent.set_left(y.get_right)
+					z.get_left.set_parent(y)
+					z.get_right.set_parent(y)
+					if z.is_left_child:
+						z.get_parent.set_left(y)
+					else:
+						z.get_parent.set_right(y)
+			while x is not None:
+				bf = x.BF
+				if -2<bf<2 and x.get_height == prev_height:
+					break
+				elif -2<bf<2 and x.get_height != prev_height:
+					x = x.parent
+				else:
+					self.perform_rotation(x)
+					x = x.parent
+		self.size -= 1
+		return rebalancing
+
+
+
 					
 
 
 
-	@staticmethod
-	def minimum(node):
+
+
+	def minimum(self, node):
 		while node.left.is_real_node:
 			node = node.left
 		return node
@@ -335,6 +406,7 @@ class AVLTree(object):
 			x = y
 			y = x.parent
 		return y
+
 
 
 	"""returns an array representing dictionary 
@@ -409,7 +481,43 @@ class AVLTree(object):
 	@returns: the absolute value of the difference between the height of the AVL trees joined
 	"""
 	def join(self, tree2, key, val): #hila
-		return None
+		cost = abs(self.root.get_height - tree2.root.get_height) + 1
+		tree1 = self
+		x = AVLNode(key, val)
+		if tree2 < x:
+			tmp = tree2
+			tree2 = tree1
+			tree1 = tmp
+			if tree1.root.get_height < tree2.root.get_height:
+				a = tree1.root
+				b = tree2.root
+				while b.get_height > tree1.root.get_height:
+					b = b.get_left
+				c = b.get_parent
+				a.set_parent(x)
+				x.set_left(a)
+				b.set_parent(x)
+				x.set_right(b)
+				x.set_parent(c)
+				c.set_left(x)
+				if c.BF == 2 or c.BF == -2:
+					tree2.perform_rotation(c)
+			else:
+				a = tree2.root
+				b = tree1.root
+				while b.get_height > tree2.root.get_height:
+					b = b.get_right
+				c = b.get_parent
+				a.set_parent(x)
+				x.set_right(a)
+				b.set_parent(x)
+				x.set_left(b)
+				x.set_parent(c)
+				c.set_right(x)
+				if c.BF == 2 or c.BF == -2:
+					tree2.perform_rotation(c)
+
+		return cost
 
 
 	"""returns the root of the tree representing the dictionary
