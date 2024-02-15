@@ -83,14 +83,8 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
-	def set_left(self, node):
-		if node.is_real_node():
-			self.set_left(node)
-			node.set_parent(self)
-			self.set_height(1 + max(self.get_left().get_height(), self.get_right().get_height()))
-			node.set_height(self.get_height() - 1)
-		return None
-
+	def set_left(self, node): #(:
+		self.left = node
 
 	"""sets right child
 
@@ -98,29 +92,15 @@ class AVLNode(object):
 	@param node: a node
 	"""
 
-	def set_right(self, node):
-		if node.is_real_node():
-			self.set_right(node)
-			node.set_parent(self)
-			self.set_height(1 + max(self.get_left().get_height(), self.get_right().get_height()))
-			node.set_height(self.get_height() - 1)
-		return None
-
+	def set_right(self, node): #(:
+		self.right = node
 	"""sets parent
 
 	@type node: AVLNode
 	@param node: a node
 	"""
-	def set_parent(self, node):
-		if node.is_real_node():
-			self.set_parent(node)
-			if node.get_key() > self.get_key():
-				node.set_left(self)
-			else:
-				node.set_right(self)
-			node.set_height(1 + max(node.get_left().get_height(),node.get_right().get_height()))
-			self.set_height(node.get_height() - 1)
-		return None
+	def set_parent(self, node): #(:
+		self.parent = node
 
 
 	"""sets key
@@ -130,7 +110,6 @@ class AVLNode(object):
 	"""
 	def set_key(self, key):
 		self.key = key
-		return None
 
 
 	"""sets value
@@ -140,7 +119,6 @@ class AVLNode(object):
 	"""
 	def set_value(self, value):
 		self.value = value
-		return None
 
 
 	"""sets the height of the node
@@ -150,7 +128,6 @@ class AVLNode(object):
 	"""
 	def set_height(self, h):
 		self.height = h
-		return None
 
 
 	"""returns whether self is not a virtual node 
@@ -159,17 +136,15 @@ class AVLNode(object):
 	@returns: False if self is a virtual node, True otherwise.
 	"""
 	def is_real_node(self):
-		return True if self.get_key() is not None else False
+		return self.get_key() is not None
 
 	def set_sons_to_virtual(self):
-		if self.is_real_node():
-			virtual_left = AVLNode(None, None)
-			virtual_right = AVLNode(None, None)
-			self.set_left(virtual_left)
-			self.set_right(virtual_right)
-			virtual_left.set_parent(self.parent)
-			virtual_right.set_parent(self.parent)
-
+		virtual_left = AVLNode(None, None)
+		virtual_right = AVLNode(None, None)
+		self.set_left(virtual_left)
+		self.set_right(virtual_right)
+		virtual_left.set_parent(self)
+		virtual_right.set_parent(self)
 
 
 	def BF(self): #Balance_Factor
@@ -201,7 +176,7 @@ class AVLTree(object):
 	@returns: the AVLNode corresponding to key or None if key is not found.
 	"""
 	def search(self, key): #recursive-solution
-		x = self.root
+		x = self.get_root()
 		if x is None or key == x.get_key():
 			return x
 		if key<x.get_key():
