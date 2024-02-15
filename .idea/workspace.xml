@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="finished insert, delete and join except for the annoying rebalancing saga which isn't clear" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2cAYIKmHZfvRr5zocYnhOQEkFlh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/hilul/Desktop",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$USER_HOME$/Desktop" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="" />
+      <created>1707555770368</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707555770368</updated>
+      <workItem from="1707555772587" duration="872000" />
+      <workItem from="1707565651684" duration="477000" />
+      <workItem from="1707566142322" duration="704000" />
+      <workItem from="1707754564622" duration="9315000" />
+      <workItem from="1707775919968" duration="463000" />
+      <workItem from="1707901296111" duration="16000" />
+      <workItem from="1707901355694" duration="1649000" />
+      <workItem from="1707903502003" duration="1864000" />
+      <workItem from="1707909025296" duration="69000" />
+      <workItem from="1707930670707" duration="27000" />
+      <workItem from="1707930743577" duration="110000" />
+      <workItem from="1707930874312" duration="6033000" />
+      <workItem from="1707984271329" duration="9302000" />
+      <workItem from="1707995599606" duration="308000" />
+      <workItem from="1707996699538" duration="818000" />
+    </task>
+    <task id="LOCAL-00001" summary="started working on insert and delete">
+      <option name="closed" value="true" />
+      <created>1707776343005</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707776343005</updated>
+    </task>
+    <task id="LOCAL-00002" summary="exported code to a new function: is_left_child, continued working on delete function">
+      <option name="closed" value="true" />
+      <created>1707909085729</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1707909085729</updated>
+    </task>
+    <task id="LOCAL-00003" summary="finished insert, delete and join except for the annoying rebalancing saga which isn't clear">
+      <option name="closed" value="true" />
+      <created>1707995180983</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1707995180983</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="started working on insert and delete" />
+    <MESSAGE value="exported code to a new function: is_left_child, continued working on delete function" />
+    <MESSAGE value="finished insert, delete and join except for the annoying rebalancing saga which isn't clear" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished insert, delete and join except for the annoying rebalancing saga which isn't clear" />
+  </component>
+</project>
