@@ -21,7 +21,11 @@ class AVLNode(object):
 		self.right = None
 		self.parent = None
 		self.height = -1
-		
+
+	#print func - delete before submitting!!!
+	def __repr__(self):
+		return str(self.key)+","+str(self.value)
+
 
 	"""returns the left child
 	@rtype: AVLNode
@@ -80,10 +84,11 @@ class AVLNode(object):
 	@param node: a node
 	"""
 	def set_left(self, node):
-		self.left = node
-		node.parent = self
-		self.height = 1 + max(self.left.height, self.right.height)
-		node.height = self.height - 1
+		if node.is_real_node():
+			self.set_left(node)
+			node.set_parent(self)
+			self.set_height(1 + max(self.get_left().get_height(), self.get_right().get_height()))
+			node.set_height(self.get_height() - 1)
 		return None
 
 
@@ -92,11 +97,13 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
+
 	def set_right(self, node):
-		self.right = node
-		node.parent = self
-		self.height = 1 + max(self.left.height, self.right.height)
-		node.height = self.height - 1
+		if node.is_real_node():
+			self.set_right(node)
+			node.set_parent(self)
+			self.set_height(1 + max(self.get_left().get_height(), self.get_right().get_height()))
+			node.set_height(self.get_height() - 1)
 		return None
 
 	"""sets parent
@@ -105,13 +112,14 @@ class AVLNode(object):
 	@param node: a node
 	"""
 	def set_parent(self, node):
-		self.parent = node
-		if node.get_key > self.get_key:
-			node.left = self
-		else:
-			node.right = self
-		node.height = 1 + max(node.left.height,node.right.height)
-		self.height = node.height - 1
+		if node.is_real_node():
+			self.set_parent(node)
+			if node.get_key() > self.get_key():
+				node.set_left(self)
+			else:
+				node.set_right(self)
+			node.set_height(1 + max(node.get_left().get_height(),node.get_right().get_height()))
+			self.set_height(node.get_height() - 1)
 		return None
 
 
@@ -151,18 +159,21 @@ class AVLNode(object):
 	@returns: False if self is a virtual node, True otherwise.
 	"""
 	def is_real_node(self):
-		return True if self.get_key is not None else False
+		return True if self.get_key() is not None else False
 
 	def set_sons_to_virtual(self):
-		virtual_left = AVLNode(None, None)
-		virtual_right = AVLNode(None, None)
-		virtual_left.set_parent(self.parent)
-		self.parent.set_left(virtual_left)
-		virtual_right.set_parent(self.parent)
-		self.parent.set_right(virtual_left)
+		if self.is_real_node():
+			virtual_left = AVLNode(None, None)
+			virtual_right = AVLNode(None, None)
+			self.set_left(virtual_left)
+			self.set_right(virtual_right)
+			virtual_left.set_parent(self.parent)
+			virtual_right.set_parent(self.parent)
+
+
 
 	def BF(self): #Balance_Factor
-		return self.left.height - self.right.height
+		return self.get_left().get_height() - self.get_right().get_height()
 
 """
 A class implementing the ADT Dictionary, using an AVL tree.
@@ -181,6 +192,7 @@ class AVLTree(object):
 		# add your fields here
 
 
+
 	"""searches for a AVLNode in the dictionary corresponding to the key
 
 	@type key: int
@@ -190,12 +202,12 @@ class AVLTree(object):
 	"""
 	def search(self, key): #recursive-solution
 		x = self.root
-		if x is None or key == x.get_key:
+		if x is None or key == x.get_key():
 			return x
-		if key<x.get_key:
-			return AVLTree.search(x.get_left,key)
+		if key<x.get_key():
+			return AVLTree.search(x.get_left(),key)
 		else:
-			return AVLTree.search(x.get_right,key)
+			return AVLTree.search(x.get_right(),key)
 
 
 	"""inserts val at position i in the dictionary
@@ -210,25 +222,28 @@ class AVLTree(object):
 	"""
 	def insert(self, key, val): #TODO don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
-		if self.root is None:
+		if self.root is None: #the tree is empty - so we insert the node as the root
 			self.root = AVLNode(key,val)
 			self.root.set_sons_to_virtual()
 		else:
 			z = AVLNode(key, val)
 			y = self.Tree_position(key)
-			prev_height = y.get_height
+			prev_height = y.get_height() #??
 			z.set_parent(y)
-			if z.get_key < y.get_key:
+			if z.get_key() < y.get_key():
 				y.set_left(z)
 			else:
 				y.set_right(z)
 			z.set_sons_to_virtual()
-			while y.is_real_node:
-				bf = y.BF
-				if -2<bf<2 and y.get_height == prev_height:
+			#__________
+			while y.is_real_node():
+				bf = y.BF()
+				if bf<abs(2) and y.get_height() == prev_height:
+					#update height?
 					break
-				elif -2<bf<2 and y.get_height != prev_height:
-					y = y.get_parent
+				elif bf<abs(2) and y.get_height() != prev_height:
+					y = y.get_parent()
+					#prev_height = y.get_height()
 				else:
 					rebalancing += self.perform_rotation(y)
 					break
@@ -242,67 +257,67 @@ class AVLTree(object):
 		y = None
 		while x is not None:
 			y = x
-			if key == x.get_key:
+			if key == x.get_key():
 				return x
-			if key < x.get_key:
-				x = x.get_left
+			if key < x.get_key():
+				x = x.get_left()
 			else:
-				x = x.get_right
+				x = x.get_right()
 		return y
 
 
 	def is_left_child(self, node):
-		if node.get_parent.get_left.get_key == node.get_key:
+		if node.get_parent().get_left().get_key() == node.get_key():
 			flag = True
 		else:
 			flag = False
 		return flag
 
 
-	def Right_rotation(self,A,B): #TODO update height and size
+	def Right_rotation(self,A,B):
 		flag = self.is_left_child(B)
-		B.left = A.right
-		B.left.parent = B
-		A.right = B
-		A.parent = B.parent
+		B.set_left(A.get_right())
+		B.get_left().set_parent(B)
+		A.set_right(B)
+		A.set_parent(B.parent)
 		if flag:
-			A.parent.left = A
+			A.get_parent.set_left(A)
 		else:
-			A.parent.right = A
-		B.parent = A
+			A.get_parent.set_right(A)
+		B.set_parent(A)
 		return None
 
 
-	def Left_rotation(self,A,B): #TODO update height and size
+	def Left_rotation(self,A,B):
 		flag = self.is_left_child(B)
-		B.right = A.left
-		B.right.parent = B
-		A.left = B
-		A.parent = B.parent
+		B.set_right(A.get_left())
+		B.get_right.set_parent(B)
+		A.set_left(B)
+		A.set_parent(B.get_parent())
 		if flag:
-			A.parent.left = A
+			A.get_parent().set_left(A)
 		else:
-			A.parent.right = A
-		B.parent = A
+			A.get_parent().set_right(A)
+		B.set_parent(A)
 		return None
 
 
 	def perform_rotation(self, y):
 		if y.BF == 2:
 			if y.left.BF == -1:
-				self.Left_rotation(y, y.get_left)
-				self.Right_rotation(y, y.get_left)
+				self.Left_rotation(y, y.get_left())
+				self.Right_rotation(y, y.get_left())
 				rebalancing = 2
 			else:
-				self.Right_rotation(y, y.get_left)
+				self.Right_rotation(y, y.get_left())
 				rebalancing = 1
 		else:
 			if y.left.BF == 1:
-				self.Right_rotation(y, y.get_right)
-				self.Left_rotation(y, y.get_right)
+				self.Right_rotation(y, y.get_right())
+				self.Left_rotation(y, y.get_right())
 				rebalancing = 2
 			else:
-				self.Left_rotation(y, y.get_right)
+				self.Left_rotation(y, y.get_right())
 				rebalancing = 1
 		return rebalancing
 
@@ -319,81 +334,75 @@ class AVLTree(object):
 		if self.size == 1:
 			self.root = None
 		else:
-			x = z.get_parent
-			prev_height = x.get_height
+			x = z.get_parent()
+			prev_height = x.get_height()
 			if z.height == 0:
-				if z.get_parent.get_right.is_real_node and z.get_parent.get_left.is_real_node:
-					if z.is_left_child:
-						z.parent.left = None
+				if z.get_parent().get_right().is_real_node and z.get_parent().get_left().is_real_node():
+					if z.is_left_child():
+						z.get_parent().set_left(None)
 					else:
-						z.parent.left = None
+						z.get_parent().set_left(None)
 
 				else:
 					z.set_sons_to_virtual()
 			elif z.right is None or z.left is None:
 				if z.is_left_child:
-					if z.get_left is not None:
-						z.get_left.set_parent(z.parent)
-						z.get_parent.set_left(z.left)
+					if z.get_left() is not None:
+						z.get_left().set_parent(z.parent)
+						z.get_parent().set_left(z.left)
 					else:
-						z.get_right.set_parent(z.parent)
-						z.get_parent.set_left(z.right)
+						z.get_right().set_parent(z.parent)
+						z.get_parent().set_left(z.right)
 				else:
 					if z.left is not None:
-						z.get_left.set_parent(z.parent)
-						z.get_parent.set_right(z.left)
+						z.get_left().set_parent(z.parent)
+						z.get_parent().set_right(z.left)
 					else:
-						z.get_right.set_parent(z.parent)
-						z.get_parent.set_right(z.right)
+						z.get_right().set_parent(z.parent)
+						z.get_parent().set_right(z.right)
 			else:
 				y = self.successor(z)
-				if y.get_right is None:
-					if not y.get_parent.right.is_real_node:
-						y.get_parent.set_sons_to_virtual()
+				if y.get_right() is None:
+					if not y.get_parent().get_right().is_real_node():
+						y.get_parent().set_sons_to_virtual()
 					else:
-						y.parent.left = None
+						y.get_parent().set_left(None)
 				else:
-					y.get_right.set_parent(y.get_parent)
-					y.get_parent.set_left(y.get_right)
-					z.get_left.set_parent(y)
-					z.get_right.set_parent(y)
-					if z.is_left_child:
-						z.get_parent.set_left(y)
+					y.get_right().set_parent(y.get_parent)
+					y.get_parent().set_left(y.get_right)
+					z.get_left().set_parent(y)
+					z.get_right().set_parent(y)
+					if z.is_left_child():
+						z.get_parent().set_left(y)
 					else:
-						z.get_parent.set_right(y)
+						z.get_parent().set_right(y)
 			while x is not None:
 				bf = x.BF
-				if -2<bf<2 and x.get_height == prev_height:
+				if bf<abs(2) and x.get_height() == prev_height:
 					break
-				elif -2<bf<2 and x.get_height != prev_height:
-					x = x.parent
+				elif bf<abs(2) and x.get_height() != prev_height:
+					x = x.get_parent()
 				else:
 					self.perform_rotation(x)
-					x = x.parent
+					x = x.get_parent()
 		self.size -= 1
 		return rebalancing
 
 
 
-					
-
-
-
-
-
 	def minimum(self, node):
-		while node.left.is_real_node:
-			node = node.left
+		while node.get_left().is_real_node():
+			node = node.get_left()
 		return node
 
 
 	def successor(self, x):
-		if x.right.is_real_node:
+		if x.get_right().is_real_node():
 			return self.minimum(x.right)
-		y = x.parent
-		while y.is_real_node and (x == y.right):
+		y = x.get_parent()
+		while y.is_real_node() and (x == y.get_right()):
 			x = y
-			y = x.parent
+			y = x.get_parent()
 		return y
 
 
@@ -411,9 +420,9 @@ class AVLTree(object):
 		x = self.get_root()
 		if x is None:
 			return []
-		x.get_left.list_Inorder(rlist)
-		rlist.append((x.get_key,x.get_value))
-		x.get_right.list_Inorder(rlist)
+		x.get_left().list_Inorder(rlist)
+		rlist.append((x.get_key(),x.get_value()))
+		x.get_right().list_Inorder(rlist)
 		return rlist
 
 
@@ -442,22 +451,22 @@ class AVLTree(object):
 		right_tree = AVLTree()  # NODE<right_tree
 		left_tree.root, right_tree.root = self.split_helper(self.root, node, left_tree,
 															right_tree)  # setting the roots for each tree
-		left_tree = left_tree.join(node.get_left, left_tree.root.get_key,
-								   left_tree.root.get_value)  # join with the left son of splitkey (node)
-		right_tree = node.get_right.join(right_tree, right_tree.root.get_key,
-									 right_tree.root.get_value)  # join with the right son of splitkey (node)
+		left_tree = left_tree.join(node.get_left(), left_tree.root.get_key(),
+								   left_tree.root.get_value())  # join with the left son of splitkey (node)
+		right_tree = node.get_right().join(right_tree, right_tree.root.get_key(),
+									 right_tree.root.get_value())  # join with the right son of splitkey (node)
 		return [left_tree, right_tree]
 
 	def split_helper(self, node, splitkey, left_tree, right_tree):  # recursive helper function
 		if not AVLNode.is_real_node(node):
 			return None, None
 		if node.key < splitkey:
-			left_subtree, right_subtree = self.split_helper(node.get_right, splitkey, left_tree, right_tree)
-			left_tree = left_tree.join(right_subtree, node.get_key, node.get_value)
+			left_subtree, right_subtree = self.split_helper(node.get_right(), splitkey, left_tree, right_tree)
+			left_tree = left_tree.join(right_subtree, node.get_key(), node.get_value())
 			return node, right_subtree
 		if node.key > splitkey:
-			left_subtree, right_subtree = self.split_helper(node.get_left, splitkey, left_tree, right_tree)
-			right_tree = left_subtree.join(right_tree, node.get_key, node.get_value)
+			left_subtree, right_subtree = self.split_helper(node.get_left(), splitkey, left_tree, right_tree)
+			right_tree = left_subtree.join(right_tree, node.get_key(), node.get_value())
 			return left_subtree, node
 
 
@@ -477,19 +486,19 @@ class AVLTree(object):
 	@returns: the absolute value of the difference between the height of the AVL trees joined
 	"""
 	def join(self, tree2, key, val): #hila
-		cost = abs(self.root.get_height - tree2.root.get_height) + 1
+		cost = abs(self.root.get_height() - tree2.root.get_height()) + 1
 		tree1 = self
 		x = AVLNode(key, val)
 		if tree2 < x:
 			tmp = tree2
 			tree2 = tree1
 			tree1 = tmp
-			if tree1.root.get_height < tree2.root.get_height:
+			if tree1.root.get_height() < tree2.root.get_height():
 				a = tree1.root
 				b = tree2.root
-				while b.get_height > tree1.root.get_height:
-					b = b.get_left
-				c = b.get_parent
+				while b.get_height() > tree1.root.get_height():
+					b = b.get_left()
+				c = b.get_parent()
 				a.set_parent(x)
 				x.set_left(a)
 				b.set_parent(x)
@@ -501,9 +510,9 @@ class AVLTree(object):
 			else:
 				a = tree2.root
 				b = tree1.root
-				while b.get_height > tree2.root.get_height:
-					b = b.get_right
-				c = b.get_parent
+				while b.get_height() > tree2.root.get_height():
+					b = b.get_right()
+				c = b.get_parent()
 				a.set_parent(x)
 				x.set_right(a)
 				b.set_parent(x)
