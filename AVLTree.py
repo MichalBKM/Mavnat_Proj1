@@ -209,7 +209,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-	"""
+
 	#TODO
 	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
@@ -226,7 +226,7 @@ class AVLTree(object):
 			elif z.get_key() > y.get_key() :
 				y.set_right(z)
 			z.update_height()
-
+			"""
 			while y is not None and y.is_real_node():
 				bf = y.BF()
 				new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
@@ -239,12 +239,11 @@ class AVLTree(object):
 				else: #3.4 in algorithm
 					rebalancing += self.perform_rotation(y)
 					break
-
+				"""
 		self.tree_size += 1
 		return rebalancing
-		"""
 
-
+	"""
 	#ROTATIONS NEED TO BE FIXED!
 	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
@@ -284,7 +283,7 @@ class AVLTree(object):
 
 		self.tree_size += 1
 		return rebalancing
-
+		"""
 
 	def Tree_position(self, key):
 		x = self.get_root()
@@ -420,7 +419,6 @@ class AVLTree(object):
 			return None
 		while x.get_left().is_real_node():
 			x = x.get_left()
-			#print(x)
 		return x
 
 
@@ -436,7 +434,6 @@ class AVLTree(object):
 		while y is not None and x.get_key() == y.get_right().get_key():
 			x = y
 			y = y.get_parent()
-		#print("succ y ", y)
 		return y
 
 
