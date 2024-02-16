@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="try3 of uploading">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="works well - search, size, getroot,avltoarray">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -148,7 +148,13 @@
       <option name="presentableId" value="LOCAL‎00008" />
       <updated>1708073588438</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL‎00009" summary="works well - search, size, getroot,avltoarray">
+      <created>1708091520933</created>
+      <option name="number" value="LOCAL‎00009" />
+      <option name="presentableId" value="LOCAL‎00009" />
+      <updated>1708091520933</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +191,18 @@
     <MESSAGE value="some syntax fixed" />
     <MESSAGE value="try2 of uploading" />
     <MESSAGE value="try3 of uploading" />
-    <option name="LAST_COMMIT_MESSAGE" value="try3 of uploading" />
+    <MESSAGE value="works well - search, size, getroot,avltoarray" />
+    <option name="LAST_COMMIT_MESSAGE" value="works well - search, size, getroot,avltoarray" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

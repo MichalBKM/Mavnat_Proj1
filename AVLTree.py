@@ -159,6 +159,11 @@ class AVLNode(object):
 			flag = False
 		return flag
 
+	def update_height(self):
+		self.height = 1 + max(self.left.height, self.right.height)
+
+
+
 """
 A class implementing the ADT Dictionary, using an AVL tree.
 """
@@ -204,34 +209,79 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
+	"""
 	#TODO
 	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
 		rebalancing = 0
+		z = AVLNode(key,val)
+		z.set_sons_to_virtual()
 		if self.root is None: #the tree is empty - so we insert the node as the root
-			self.root = AVLNode(key,val)
-			self.root.set_sons_to_virtual()
+			self.root = z
+			z.update_height()
 		else:
-			z = AVLNode(key, val)
 			y = self.Tree_position(key)
-			prev_height = y.get_height() #??
-			z.set_parent(y)
+			z.set_parent(y) #y is the father of z
 			if z.get_key() < y.get_key():
 				y.set_left(z)
 			elif z.get_key() > y.get_key() :
 				y.set_right(z)
-			z.set_sons_to_virtual()
+			z.update_height()
 
-			while y.is_real_node():
+			while y is not None and y.is_real_node():
 				bf = y.BF()
-				if bf<abs(2) and y.get_height() == prev_height:
-					#update height?
+				new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
+				if abs(bf)<2 and y.get_height() == new_height: #3.2 in algorithm
 					break
-				elif bf<abs(2) and y.get_height() != prev_height:
+				elif abs(bf)<2 and y.get_height() != new_height: #3.3 in algorithm
+					y.update_height()
+					rebalancing += 1
 					y = y.get_parent()
-					#prev_height = y.get_height()
-				else:
+				else: #3.4 in algorithm
 					rebalancing += self.perform_rotation(y)
 					break
+
+		self.tree_size += 1
+		return rebalancing
+		"""
+
+
+	#ROTATIONS NEED TO BE FIXED!
+	def insert(self, key, val): #don't forget to return the num of rotations + size updating, find where rebalancing is needed without rotation (field update)
+		rebalancing = 0
+		z = AVLNode(key,val)
+		z.set_sons_to_virtual()
+		y = self.Tree_position(key)
+		z.set_parent(y)  # y is the father of z
+		#print("tree position: ", y)
+		if y is None: #tree is empty - place z as the root
+			self.root = z
+			#print("root is", z)
+		elif key < y.get_key(): #z is the left son of y
+			y.set_left(z)
+			#print("left son of ",y, " is ",z)
+		else: #z.get_key() > y.get_key() - z is the right son of y
+			y.set_right(z)
+			#print("right son of ", y, " is ", z)
+		#print("parent of ", z, " is ", y)
+		z.update_height()
+
+		#balancing + update heights
+		while y is not None:
+			bf = y.BF()
+			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
+
+			if abs(bf)<2 and y.get_height() == new_height: #3.2 in algorithm
+				break
+
+			elif abs(bf)<2 and y.get_height() != new_height: #3.3 in algorithm
+				y.update_height()
+				rebalancing += 1
+				y = y.get_parent()
+
+			else: #3.4 in algorithm - abs(bf)==2
+				rebalancing += self.perform_rotation(y)
+				break
+
 		self.tree_size += 1
 		return rebalancing
 
@@ -241,9 +291,7 @@ class AVLTree(object):
 		y = None
 		while x is not None and x.is_real_node():
 			y = x
-			if key == x.get_key():
-				return x
-			elif key < x.get_key():
+			if key < x.get_key():
 				x = x.get_left()
 			else:
 				x = x.get_right()
@@ -257,9 +305,9 @@ class AVLTree(object):
 		A.set_right(B)
 		A.set_parent(B.parent)
 		if flag:
-			A.get_parent.set_left(A)
+			A.get_parent().set_left(A)
 		else:
-			A.get_parent.set_right(A)
+			A.get_parent().set_right(A)
 		B.set_parent(A)
 		return None
 
@@ -267,7 +315,7 @@ class AVLTree(object):
 	def Left_rotation(self,A,B):
 		flag = B.is_left_child()
 		B.set_right(A.get_left())
-		B.get_right.set_parent(B)
+		B.get_right().set_parent(B)
 		A.set_left(B)
 		A.set_parent(B.get_parent())
 		if flag:
@@ -279,20 +327,20 @@ class AVLTree(object):
 
 
 	def perform_rotation(self, y):
-		if y.BF == 2:
-			if y.left.BF == -1:
+		if y.BF() == 2:
+			if y.get_left().BF() == -1:
 				self.Left_rotation(y, y.get_left())
 				self.Right_rotation(y, y.get_left())
 				rebalancing = 2
-			else:
+			else: #+1 or 0 for delete , +1 only for insert
 				self.Right_rotation(y, y.get_left())
 				rebalancing = 1
-		else:
-			if y.left.BF == 1:
+		else: #BF==-2
+			if y.get_left().BF() == 1:
 				self.Right_rotation(y, y.get_right())
 				self.Left_rotation(y, y.get_right())
 				rebalancing = 2
-			else:
+			else: #-1 or 0 for delete , -1 only for insert
 				self.Left_rotation(y, y.get_right())
 				rebalancing = 1
 		return rebalancing
@@ -366,23 +414,29 @@ class AVLTree(object):
 		return rebalancing
 
 
-	def minimum(self, node): #WORKS WELL - DONT EDIT
-		if node is None:
+	def minimum(self): #WORKS WELL - DONT EDIT
+		x = self.get_root()
+		if x is None:
 			return None
-		while node.get_left().is_real_node():
-			node = node.get_left()
-		return node
+		while x.get_left().is_real_node():
+			x = x.get_left()
+			#print(x)
+		return x
 
 
 	def successor(self, x): #WORKS WELL - DONT EDIT
+		if not x.is_real_node():
+			return None
 		if x.get_right().is_real_node():
-			return self.minimum(x.get_right())
+			z = x.get_right()
+			while z.get_left().is_real_node():
+				z = z.get_left()
+			return z
 		y = x.get_parent()
-		while y is not None and y.is_real_node():
-			if x != y.get_right():
-				break
+		while y is not None and x.get_key() == y.get_right().get_key():
 			x = y
 			y = y.get_parent()
+		#print("succ y ", y)
 		return y
 
 
@@ -396,7 +450,8 @@ class AVLTree(object):
 		if self.get_root() is None:
 			return []
 		rlist = []
-		x = self.minimum(self.get_root())
+		print("rlist: ", rlist)
+		x = self.minimum()
 		while x is not None and x.is_real_node():
 			rlist.append((x.get_key(),x.get_value()))
 			x = self.successor(x)
@@ -481,7 +536,7 @@ class AVLTree(object):
 				x.set_right(b)
 				x.set_parent(c)
 				c.set_left(x)
-				if c.BF == 2 or c.BF == -2:
+				if c.BF() == 2 or c.BF() == -2:
 					tree2.perform_rotation(c)
 			else:
 				a = tree2.root
@@ -495,7 +550,7 @@ class AVLTree(object):
 				x.set_left(b)
 				x.set_parent(c)
 				c.set_right(x)
-				if c.BF == 2 or c.BF == -2:
+				if c.BF() == 2 or c.BF() == -2:
 					tree2.perform_rotation(c)
 
 		return cost
