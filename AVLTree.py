@@ -83,7 +83,7 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
-	def set_left(self, node): #(:
+	def set_left(self, node): #(-:
 		self.left = node
 
 	"""sets right child
@@ -92,14 +92,14 @@ class AVLNode(object):
 	@param node: a node
 	"""
 
-	def set_right(self, node): #(:
+	def set_right(self, node): #(-:
 		self.right = node
 	"""sets parent
 
 	@type node: AVLNode
 	@param node: a node
 	"""
-	def set_parent(self, node): #(:
+	def set_parent(self, node): #(-:
 		self.parent = node
 
 
