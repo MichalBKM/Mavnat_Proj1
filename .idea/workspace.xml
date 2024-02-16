@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="works well - search, size, getroot,avltoarray">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="the problem is with the rotation!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -154,7 +154,19 @@
       <option name="presentableId" value="LOCAL‎00009" />
       <updated>1708091520933</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL‎00010" summary="more debugging and stuff - now the insertion works, but not the balancing&amp;rotations part">
+      <created>1708103433510</created>
+      <option name="number" value="LOCAL‎00010" />
+      <option name="presentableId" value="LOCAL‎00010" />
+      <updated>1708103433510</updated>
+    </task>
+    <task id="LOCAL‎00011" summary="the problem is with the rotation!">
+      <created>1708117153830</created>
+      <option name="number" value="LOCAL‎00011" />
+      <option name="presentableId" value="LOCAL‎00011" />
+      <updated>1708117153830</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,7 +204,9 @@
     <MESSAGE value="try2 of uploading" />
     <MESSAGE value="try3 of uploading" />
     <MESSAGE value="works well - search, size, getroot,avltoarray" />
-    <option name="LAST_COMMIT_MESSAGE" value="works well - search, size, getroot,avltoarray" />
+    <MESSAGE value="more debugging and stuff - now the insertion works, but not the balancing&amp;rotations part" />
+    <MESSAGE value="the problem is with the rotation!" />
+    <option name="LAST_COMMIT_MESSAGE" value="the problem is with the rotation!" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

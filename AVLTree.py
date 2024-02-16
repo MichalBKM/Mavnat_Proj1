@@ -159,8 +159,16 @@ class AVLNode(object):
 			flag = False
 		return flag
 
+	def is_root(self):
+		if self.get_parent() is None:
+			return True
+		return False
+
 	def update_height(self):
-		self.height = 1 + max(self.left.height, self.right.height)
+		if not self.is_real_node():
+			self.height = -1
+		else:
+			self.height = 1 + max(self.left.height, self.right.height)
 
 
 
@@ -226,7 +234,7 @@ class AVLTree(object):
 			elif z.get_key() > y.get_key() :
 				y.set_right(z)
 			z.update_height()
-			"""
+
 			while y is not None and y.is_real_node():
 				bf = y.BF()
 				new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
@@ -239,7 +247,7 @@ class AVLTree(object):
 				else: #3.4 in algorithm
 					rebalancing += self.perform_rotation(y)
 					break
-				"""
+
 		self.tree_size += 1
 		return rebalancing
 
@@ -296,7 +304,7 @@ class AVLTree(object):
 				x = x.get_right()
 		return y
 
-
+	"""
 	def Right_rotation(self,A,B):
 		flag = B.is_left_child()
 		B.set_left(A.get_right())
@@ -309,9 +317,28 @@ class AVLTree(object):
 			A.get_parent().set_right(A)
 		B.set_parent(A)
 		return None
+		"""
 
+	def Right_rotation(self,B):
+		A = B.get_parent()
+		if A.is_root():
+			# TODO
+		flag = B.is_left_child()
+		B.set_left(A.get_right())
+		B.get_left().set_parent(B)
+		A.set_right(B)
+		A.set_parent(B.parent)
+		if flag:
+			A.get_parent().set_left(A)
+		else:
+			A.get_parent().set_right(A)
+		B.set_parent(A)
+		return None
 
-	def Left_rotation(self,A,B):
+	def Left_rotation(self,B):
+		A = B.get_parent()
+		if A.is_root():
+			#TODO
 		flag = B.is_left_child()
 		B.set_right(A.get_left())
 		B.get_right().set_parent(B)
@@ -324,26 +351,60 @@ class AVLTree(object):
 		B.set_parent(A)
 		return None
 
+	"""
+	def Left_rotation(self,A,B):
+		flag = B.is_left_child()
+		B.set_right(A.get_left())
+		B.get_right().set_parent(B)
+		A.set_left(B)
+		A.set_parent(B.get_parent())
+		if flag:
+			A.get_parent().set_left(A)
+		else:
+			A.get_parent().set_right(A)
+		B.set_parent(A)
+		return None
+"""
 
 	def perform_rotation(self, y):
 		if y.BF() == 2:
 			if y.get_left().BF() == -1:
-				self.Left_rotation(y, y.get_left())
-				self.Right_rotation(y, y.get_left())
+				self.Left_rotation(y.get_left())
+				self.Right_rotation(y.get_left())
 				rebalancing = 2
-			else: #+1 or 0 for delete , +1 only for insert
-				self.Right_rotation(y, y.get_left())
+			else:  # +1 or 0 for delete , +1 only for insert
+				self.Right_rotation(y.get_left())
 				rebalancing = 1
-		else: #BF==-2
+		else:  # BF==-2
 			if y.get_left().BF() == 1:
-				self.Right_rotation(y, y.get_right())
-				self.Left_rotation(y, y.get_right())
+				self.Right_rotation(y.get_right())
+				self.Left_rotation(y.get_right())
 				rebalancing = 2
-			else: #-1 or 0 for delete , -1 only for insert
-				self.Left_rotation(y, y.get_right())
+			else:  # -1 or 0 for delete , -1 only for insert
+				self.Left_rotation(y.get_right())
 				rebalancing = 1
 		return rebalancing
 
+	"""
+   def perform_rotation(self, y):
+	   if y.BF() == 2:
+		   if y.get_left().BF() == -1:
+			   self.Left_rotation(y, y.get_left())
+			   self.Right_rotation(y, y.get_left())
+			   rebalancing = 2
+		   else: #+1 or 0 for delete , +1 only for insert
+			   self.Right_rotation(y, y.get_left())
+			   rebalancing = 1
+	   else: #BF==-2
+		   if y.get_left().BF() == 1:
+			   self.Right_rotation(y, y.get_right())
+			   self.Left_rotation(y, y.get_right())
+			   rebalancing = 2
+		   else: #-1 or 0 for delete , -1 only for insert
+			   self.Left_rotation(y, y.get_right())
+			   rebalancing = 1
+	   return rebalancing
+		"""
 
 	"""deletes node from the dictionary
 
@@ -447,7 +508,6 @@ class AVLTree(object):
 		if self.get_root() is None:
 			return []
 		rlist = []
-		print("rlist: ", rlist)
 		x = self.minimum()
 		while x is not None and x.is_real_node():
 			rlist.append((x.get_key(),x.get_value()))
