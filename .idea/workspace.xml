@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="fixing problems - try2 of uploading">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2cAYIKmHZfvRr5zocYnhOQEkFlh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/AVL-MICHALLAHAV.py" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Michal\Documents\GitHub\Mavnat_Proj1" />
+      <recent name="$USER_HOME$/Desktop" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Mavnat_Proj1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="" />
+      <created>1707555770368</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707555770368</updated>
+      <workItem from="1707555772587" duration="872000" />
+      <workItem from="1707565651684" duration="477000" />
+      <workItem from="1707566142322" duration="704000" />
+      <workItem from="1707754564622" duration="9315000" />
+      <workItem from="1707775919968" duration="463000" />
+      <workItem from="1707901296111" duration="16000" />
+      <workItem from="1707901355694" duration="1649000" />
+      <workItem from="1707903502003" duration="1864000" />
+      <workItem from="1707909025296" duration="69000" />
+      <workItem from="1707930670707" duration="27000" />
+      <workItem from="1707930743577" duration="110000" />
+      <workItem from="1707930874312" duration="6033000" />
+      <workItem from="1707984271329" duration="9302000" />
+      <workItem from="1707995599606" duration="308000" />
+      <workItem from="1707996699538" duration="918000" />
+      <workItem from="1707998116234" duration="1000" />
+      <workItem from="1707998128821" duration="78000" />
+    </task>
+    <task id="LOCAL-00001" summary="started working on insert and delete">
+      <option name="closed" value="true" />
+      <created>1707776343005</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707776343005</updated>
+    </task>
+    <task id="LOCAL-00002" summary="exported code to a new function: is_left_child, continued working on delete function">
+      <option name="closed" value="true" />
+      <created>1707909085729</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1707909085729</updated>
+    </task>
+    <task id="LOCAL-00003" summary="finished insert, delete and join except for the annoying rebalancing saga which isn't clear">
+      <option name="closed" value="true" />
+      <created>1707995180983</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1707995180983</updated>
+    </task>
+    <task id="LOCAL-00004" summary="copied split from branch repo manually and added it to main">
+      <option name="closed" value="true" />
+      <created>1707998092361</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1707998092361</updated>
+    </task>
+    <task id="LOCAL‎00005" summary="some syntax fixed">
+      <created>1708018043867</created>
+      <option name="number" value="LOCAL‎00005" />
+      <option name="presentableId" value="LOCAL‎00005" />
+      <updated>1708018043867</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="started working on insert and delete" />
+    <MESSAGE value="exported code to a new function: is_left_child, continued working on delete function" />
+    <MESSAGE value="finished insert, delete and join except for the annoying rebalancing saga which isn't clear" />
+    <MESSAGE value="copied split from branch repo manually and added it to main" />
+    <MESSAGE value="some syntax fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="some syntax fixed" />
+  </component>
+</project>
