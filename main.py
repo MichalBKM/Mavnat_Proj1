@@ -6,7 +6,7 @@ def main1():
     #print(node)
     tree = AVLTree()
     tree.insert(10,0)
-    #print(tree.avl_to_array())
+    #print(tree.avl_to_array()) :))
 
 if __name__ == '__main__':
     main1()
