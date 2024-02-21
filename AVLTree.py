@@ -286,10 +286,11 @@ class AVLTree(object):
 		B.get_right().set_parent(B)
 		A.set_left(B)
 		A.set_parent(B.get_parent())
-		if B.get_parent().get_left().get_key() == B.get_key():
-			A.get_parent().set_left(A)
-		else:
-			A.get_parent().set_right(A)
+		if A.get_parent() is not None:
+			if B.get_parent().get_left().get_key() == B.get_key():
+				A.get_parent().set_left(A)
+			else:
+				A.get_parent().set_right(A)
 		B.set_parent(A)
 		if is_root:
 			self.root = A
@@ -483,18 +484,19 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the absolute value of the difference between the height of the AVL trees joined
 	"""
+	"""
 	def join(self, tree2, key, val): #hila - think about fix heights?
-		cost = abs(self.root.get_height()-tree2.root.get_height()) + 1
+		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
 		tree1 = self
-		x = AVLNode(key, val)
+		x = AVLNode(key, val) #x is the new root
 		if tree2 < x:
-			tmp = tree2
+			tmp = tree2 #switch roles for T1 and T2
 			tree2 = tree1
 			tree1 = tmp
-			if tree1.root.get_height() < tree2.root.get_height():
+			if tree1.get_root().get_height() < tree2.get_root().get_height():
 				a = tree1.get_root()
 				b = tree2.get_root()
-				while b.get_height() > tree1.root.get_height():
+				while b.get_height() > tree1.get_root().get_height():
 					b = b.get_left()
 				c = b.get_parent()
 				a.set_parent(x)
@@ -503,9 +505,9 @@ class AVLTree(object):
 				x.set_right(b)
 				x.set_parent(c)
 				c.set_left(x)
-				if c.BF()==2 or c.BF()==-2:
+				if abs(c.BF())==2:
 					tree2.perform_rotation(c)
-			else:
+			else: #if tree1.get_root()<x
 				a = tree2.get_root()
 				b = tree1.get_root()
 				while b.get_height() > tree2.get_root().get_height():
@@ -521,6 +523,57 @@ class AVLTree(object):
 					tree2.perform_rotation(c)
 
 		return cost
+		"""
+
+	def join(self, tree2, key, val): #hila - think about fix heights?
+		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
+		x = AVLNode(key, val) #x is the new root
+		t1 = AVLTree()
+		t2 = AVLTree()
+		if self.get_root().get_key() < key:
+			t1 = self
+			t2 = tree2
+		else:
+			t1 = tree2
+			t2 = self
+		h1 = t1.get_root().get_height()
+		h2 = t2.get_root().get_height()
+		if h1<=h2:
+			a = t1.get_root()
+			b = t2.get_root()
+			while b.get_height() > t1.get_root().get_height():
+				b = b.get_left()
+			c = b.get_parent()
+			a.set_parent(x)
+			x.set_left(a)
+			b.set_parent(x)
+			x.set_right(b)
+			x.set_parent(c)
+			c.set_left(x)
+			if abs(c.BF()) == 2:
+				tree2.perform_rotation(c)
+		else:
+			a = t2.get_root()
+			b = t1.get_root()
+			while b.get_height() > t2.get_root().get_height():
+				b = b.get_right()
+			c = b.get_parent()
+			a.set_parent(x)
+			x.set_left(a)
+			b.set_parent(x)
+			x.set_right(b)
+			x.set_parent(c)
+			c.set_right(x)
+			if abs(c.BF()) == 2:
+				tree2.perform_rotation(c)
+		#print(t1.avl_to_array())
+		return cost
+
+
+
+
+
+
 
 
 	"""returns the root of the tree representing the dictionary

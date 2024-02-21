@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="we need to change the Lrotation + Rrotation from(self,A,B) to (self,B) - started. need also to think about what if parent is root and how it affects everything. after that- fixing callings">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -172,7 +172,13 @@
       <option name="presentableId" value="LOCAL‎00012" />
       <updated>1708119917574</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL‎00013" summary="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join">
+      <created>1708447576936</created>
+      <option name="number" value="LOCAL‎00013" />
+      <option name="presentableId" value="LOCAL‎00013" />
+      <updated>1708447576936</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,7 +219,8 @@
     <MESSAGE value="more debugging and stuff - now the insertion works, but not the balancing&amp;rotations part" />
     <MESSAGE value="the problem is with the rotation!" />
     <MESSAGE value="we need to change the Lrotation + Rrotation from(self,A,B) to (self,B) - started. need also to think about what if parent is root and how it affects everything. after that- fixing callings" />
-    <option name="LAST_COMMIT_MESSAGE" value="we need to change the Lrotation + Rrotation from(self,A,B) to (self,B) - started. need also to think about what if parent is root and how it affects everything. after that- fixing callings" />
+    <MESSAGE value="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join" />
+    <option name="LAST_COMMIT_MESSAGE" value="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
