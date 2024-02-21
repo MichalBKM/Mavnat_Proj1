@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="started to debug join">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
@@ -178,7 +178,13 @@
       <option name="presentableId" value="LOCAL‎00013" />
       <updated>1708447576936</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL‎00014" summary="started to debug join">
+      <created>1708516415851</created>
+      <option name="number" value="LOCAL‎00014" />
+      <option name="presentableId" value="LOCAL‎00014" />
+      <updated>1708516415851</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,7 +226,8 @@
     <MESSAGE value="the problem is with the rotation!" />
     <MESSAGE value="we need to change the Lrotation + Rrotation from(self,A,B) to (self,B) - started. need also to think about what if parent is root and how it affects everything. after that- fixing callings" />
     <MESSAGE value="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join" />
-    <option name="LAST_COMMIT_MESSAGE" value="INSERT IS FIXED!&#10;works: avl_to_array, get_root, size&#10;TODO NEXT: delete, split, join" />
+    <MESSAGE value="started to debug join" />
+    <option name="LAST_COMMIT_MESSAGE" value="started to debug join" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

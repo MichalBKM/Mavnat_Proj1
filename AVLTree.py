@@ -448,27 +448,42 @@ class AVLTree(object):
 	dictionary smaller than node.key, right is an AVLTree representing the keys in the 
 	dictionary larger than node.key.
 	"""
-	#NEED TO RE-WRITE
-	def split(self, node):
-		left_tree = AVLTree()  # left_tree<NODE
-		right_tree = AVLTree()  # NODE<right_tree
-		splitkey = node.get_key()
-		left_tree.root, right_tree.root = self.split_helper(self.get_root(), splitkey, left_tree, right_tree)  # setting the roots for each tree
-		left_tree = left_tree.join(node.get_left(), left_tree.get_root().get_key(), left_tree.get_root().get_value())  # join with the left son of splitkey (node)
-		right_tree = node.get_right().join(right_tree, right_tree.get_root().get_key(),right_tree.get_root().get_value())  # join with the right son of splitkey (node)
-		return [left_tree, right_tree]
 
-	def split_helper(self, node, splitkey, left_tree, right_tree):  # recursive helper function
-		if not node.is_real_node():
-			return None, None
-		if node.get_key() < splitkey:
-			left_subtree, right_subtree = self.split_helper(node.get_right(), splitkey, left_tree, right_tree)
-			left_tree = left_tree.join(right_subtree, node.get_key(), node.get_value())
-			return node, right_subtree
-		if node.get_key() > splitkey:
-			left_subtree, right_subtree = self.split_helper(node.get_left(), splitkey, left_tree, right_tree)
-			right_tree = left_subtree.join(right_tree, node.get_key(), node.get_value())
-			return left_subtree, node
+	def split(self, node): #sizes + heights
+		t1 = AVLTree()
+		t2 = AVLTree()
+		if node.get_left().is_real_node(): #if the node has left children
+			t1.root = node.get_left()
+			node.get_left().set_parent(None)
+		if node.get_right().is_real_node(): #if the node has right children
+			t2.root = node.get_right()
+			node.get_left().set_parent(None)
+		y = node.get_parent()
+		x = node
+
+		tmp1 = AVLTree()
+		tmp2 = AVLTree()
+		while y is not None:
+			if x is y.get_right():
+				tmp1.root = y.get_left()
+				y.get_left().set_parent(None)
+				t1.join(tmp1, y.get_key(), y.get_value())
+				tmp1.root = None
+			else:
+				tmp2.root = y.get_right()
+				y.get_right().set_parent(None)
+				t2.join(tmp2, y.get_key(), y.get_value())
+				tmp2.root = None
+			x = y
+			y = y.get_parent()
+
+		print("t1: ", t1.avl_to_array())
+		print("t2: ", t2.avl_to_array())
+		print(t1.get_root())
+		print(t2.get_root())
+		print(t1.size())
+		print(t2.size())
+		return [t1, t2]
 
 
 
@@ -525,7 +540,7 @@ class AVLTree(object):
 		return cost
 		"""
 
-	def join(self, tree2, key, val): #hila - think about fix heights?
+	def join(self, tree2, key, val): #think about update heights
 		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
 		x = AVLNode(key, val) #x is the new root
 		t1 = AVLTree()
@@ -566,12 +581,8 @@ class AVLTree(object):
 			c.set_right(x)
 			if abs(c.BF()) == 2:
 				tree2.perform_rotation(c)
-		#print(t1.avl_to_array())
+		print(t1.avl_to_array())
 		return cost
-
-
-
-
 
 
 
