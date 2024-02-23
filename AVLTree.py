@@ -330,7 +330,7 @@ class AVLTree(object):
 			root = True
 		else:
 			root = False
-		if not node.get_left().is_real_node() and not node.get_right().is_real_node():
+		if not node.get_left().is_real_node() and not node.get_right().is_real_node(): #node is a leaf
 			if root:
 				self.root = None
 			else:
@@ -340,7 +340,7 @@ class AVLTree(object):
 				else:
 					y.set_right(virtual)
 				virtual.set_parent(y)
-		elif node.get_left().is_real_node() and not node.get_right().is_real_node():
+		elif node.get_left().is_real_node() and not node.get_right().is_real_node(): #node has only left child
 			if root:
 				self.root = node.get_left()
 				node.get_left().set_parent(None)
@@ -351,7 +351,7 @@ class AVLTree(object):
 				else:
 					y.set_right(node.get_left())
 				node.get_left().set_parent(y)
-		elif not node.get_left().is_real_node() and node.get_right().is_real_node():
+		elif not node.get_left().is_real_node() and node.get_right().is_real_node(): #node has only right child
 			if root:
 				self.root = node.get_right()
 				node.get_right().set_parent(None)
@@ -362,7 +362,7 @@ class AVLTree(object):
 				else:
 					y.set_right(node.get_right())
 				node.get_right().set_parent(y)
-		else:
+		else: #node has two children
 			successor = self.successor(node)
 			if root:
 				y = successor.get_parent()
@@ -383,19 +383,29 @@ class AVLTree(object):
 					self.root = successor
 			else:
 				x = successor.get_parent()
-				x.set_left(successor.get_right())
-				successor.get_right().set_parent(x)
-				node.get_left().set_parent(successor)
-				node.get_right().set_parent(successor)
-				successor.set_left(node.get_left())
-				successor.set_right(node.get_right())
-				y = node.get_parent()
-				successor.set_parent(y)
-				if y.get_left().get_key() == node.get_key():
-					y.set_left(successor)
+				if x is node:
+					node.get_left().set_parent(successor)
+					successor.set_left(x.get_left())
+					successor.set_parent(x.get_parent())
+					if x.get_parent().get_left().get_key() == x.get_key():
+						x.get_parent().set_left(successor)
+					else:
+						x.get_parent().set_right(successor)
+					y = successor
 				else:
-					y.set_right(successor)
-				y = x
+					x.set_left(successor.get_right())
+					successor.get_right().set_parent(x)
+					node.get_left().set_parent(successor)
+					node.get_right().set_parent(successor)
+					successor.set_left(node.get_left())
+					successor.set_right(node.get_right())
+					y = node.get_parent()
+					successor.set_parent(y)
+					if y.get_left().get_key() == node.get_key():
+						y.set_left(successor)
+					else:
+						y.set_right(successor)
+					y = x
 		while y is not None:
 			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
 			bf = y.BF()
@@ -499,12 +509,6 @@ class AVLTree(object):
 			x = y
 			y = y.get_parent()
 
-		print("t1: ", t1.avl_to_array())
-		print("t2: ", t2.avl_to_array())
-		print(t1.get_root())
-		print(t2.get_root())
-		print(t1.size())
-		print(t2.size())
 		return [t1, t2]
 
 
@@ -581,10 +585,8 @@ class AVLTree(object):
 				c.set_right(x)
 				if abs(c.BF()) == 2:
 					small_tree.perform_rotation(c)
-			print("here #2", big_tree.avl_to_array())
 			self.root = x
 		return cost
-
 
 
 	"""returns the root of the tree representing the dictionary

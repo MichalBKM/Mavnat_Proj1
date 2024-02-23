@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="did basic test by hand and fixed join to match some basic cases of empty trees. need to check split+delete a bit more.">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="more fixings and tests by hand - join&amp;delete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +195,13 @@
       <option name="presentableId" value="LOCAL‎00016" />
       <updated>1708708955999</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL‎00017" summary="more fixings and tests by hand - join&amp;delete">
+      <created>1708710502409</created>
+      <option name="number" value="LOCAL‎00017" />
+      <option name="presentableId" value="LOCAL‎00017" />
+      <updated>1708710502409</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -241,7 +246,8 @@
     <MESSAGE value="started to debug join" />
     <MESSAGE value="JOIN: need to fix heights(+sizes?)&#10;SPLIT: in progress. need to fix heights(+sizes)" />
     <MESSAGE value="did basic test by hand and fixed join to match some basic cases of empty trees. need to check split+delete a bit more." />
-    <option name="LAST_COMMIT_MESSAGE" value="did basic test by hand and fixed join to match some basic cases of empty trees. need to check split+delete a bit more." />
+    <MESSAGE value="more fixings and tests by hand - join&amp;delete" />
+    <option name="LAST_COMMIT_MESSAGE" value="more fixings and tests by hand - join&amp;delete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
