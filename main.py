@@ -1,27 +1,21 @@
 from AVLTree import AVLTree, AVLNode
+from tests import tests
+from graph_tree import draw_binary_tree
 
 def main():
-
-    b = AVLTree()
-    b.insert(7,0)
-    b.insert(6,1)
-    b.insert(8,2)
-    s = AVLTree()
-    s.insert(2,10)
-    s.insert(1,11)
-    s.insert(3,12)
-
-    print("join", b.join(s,5,9))
-    print("root",b.get_root())
-    print("to array",b.avl_to_array())
-    print("search")
-    a = b.search(2)
-    print(a)
-    print("delete", b.delete(a))
-    print(b.get_root().get_left().get_right())
-    #print("to array - after delete",b.avl_to_array())
-
-
+    test = tests()
+    test.testInsertDelete()
+    """
+    tree = AVLTree()
+    tree.insert(23,23)
+    tree.insert(4,4)
+    tree.insert(30,30)
+    tree.insert(11,11)
+    tree.insert(7,7)
+    print(tree.avl_to_array())
+    draw_binary_tree(tree.get_root())
+    """
+    print("end")
 
 
 if __name__ == '__main__':

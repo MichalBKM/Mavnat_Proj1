@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="more fixings and tests by hand - join&amp;delete">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="Delete - FIXED">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +29,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/AVL-MICHALLAHAV.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests.py" />
     <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
   <component name="RecentsManager">
@@ -201,7 +202,13 @@
       <option name="presentableId" value="LOCAL‎00017" />
       <updated>1708710502409</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL‎00018" summary="Delete - FIXED">
+      <created>1708717156038</created>
+      <option name="number" value="LOCAL‎00018" />
+      <option name="presentableId" value="LOCAL‎00018" />
+      <updated>1708717156038</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -247,10 +254,18 @@
     <MESSAGE value="JOIN: need to fix heights(+sizes?)&#10;SPLIT: in progress. need to fix heights(+sizes)" />
     <MESSAGE value="did basic test by hand and fixed join to match some basic cases of empty trees. need to check split+delete a bit more." />
     <MESSAGE value="more fixings and tests by hand - join&amp;delete" />
-    <option name="LAST_COMMIT_MESSAGE" value="more fixings and tests by hand - join&amp;delete" />
+    <MESSAGE value="Delete - FIXED" />
+    <option name="LAST_COMMIT_MESSAGE" value="Delete - FIXED" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/AVLTree.py</url>
+          <line>153</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
           <properties notifyOnTerminate="true" exception="BaseException">
@@ -259,5 +274,10 @@
         </breakpoint>
       </default-breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="y.left.left" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

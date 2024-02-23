@@ -23,8 +23,8 @@ class AVLNode(object):
 		self.height = -1
 
 	#print func - delete before submitting!!!
-	def __repr__(self):
-		return "<"+str(self.key)+","+str(self.value)+">"
+	#def __repr__(self):
+		#return "<"+str(self.key)+","+str(self.value)+">"
 
 
 	"""returns the left child
@@ -76,6 +76,8 @@ class AVLNode(object):
 	@returns: the height of self, -1 if the node is virtual
 	"""
 	def get_height(self): #DONT EDIT
+		if not self.is_real_node():
+			return -1
 		return self.height
 
 	"""sets left child
@@ -150,14 +152,7 @@ class AVLNode(object):
 
 	#BF = Balance_Factor
 	def BF(self): #DONT EDIT
-		return self.get_left().get_height() - self.get_right().get_height()
-
-	def is_left_child(self):
-		if self.is_real_node() and self.get_parent().get_left().get_key() == self.get_key():
-			flag = True
-		else:
-			flag = False
-		return flag
+		return self.left.get_height() - self.right.get_height()
 
 
 	def update_height(self):
@@ -165,7 +160,6 @@ class AVLNode(object):
 			self.height = -1
 		else:
 			self.height = 1 + max(self.left.height, self.right.height)
-
 
 
 """
@@ -226,8 +220,8 @@ class AVLTree(object):
 		node.update_height()
 		rebalancing = 0
 
-		while y is not None:
-			new_height = 1+ max(y.get_left().get_height(), y.get_right().get_height())
+		while y is not None: #and not y.is_real_node()
+			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
 			bf = y.BF()
 			if abs(bf)<2 and y.get_height() == new_height: #3.2 IN ALGORITHM
 				break
@@ -237,7 +231,6 @@ class AVLTree(object):
 			else: #abs(bf)==2 3.4 IN ALGORITHM
 				rebalancing += self.perform_rotation(y)
 				break
-
 			y = y.get_parent()
 		self.tree_size += 1
 		return rebalancing
