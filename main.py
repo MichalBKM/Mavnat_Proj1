@@ -11,12 +11,16 @@ def main():
     s.insert(1,11)
     s.insert(3,12)
 
-    #print(b.join(s,5,9))
-    #print(b.avl_to_array())
-    a = s.search(2)
-    print("delete", s.delete(a))
-    print(s.avl_to_array())
-    print(s.get_root().get_left())
+    print("join", b.join(s,5,9))
+    print("root",b.get_root())
+    print("to array",b.avl_to_array())
+    print("search")
+    a = b.search(2)
+    print(a)
+    print("delete", b.delete(a))
+    print(b.get_root().get_left().get_right())
+    #print("to array - after delete",b.avl_to_array())
+
 
 
 

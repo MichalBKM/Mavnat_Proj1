@@ -23,8 +23,8 @@ class AVLNode(object):
 		self.height = -1
 
 	#print func - delete before submitting!!!
-	#def __repr__(self):
-		#return "<"+str(self.key)+","+str(self.value)+">"
+	def __repr__(self):
+		return "<"+str(self.key)+","+str(self.value)+">"
 
 
 	"""returns the left child
@@ -322,48 +322,48 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 
-	def delete(self, z):
+	def delete(self, node):
 		rebalancing = 0
 		virtual = AVLNode(None, None)
 		y = None
-		if self.get_root().get_key() == z.get_key():
+		if self.get_root().get_key() == node.get_key():
 			root = True
 		else:
 			root = False
-		if not z.get_left().is_real_node() and not z.get_right().is_real_node():
+		if not node.get_left().is_real_node() and not node.get_right().is_real_node():
 			if root:
 				self.root = None
 			else:
-				y = z.get_parent()
-				if y.get_left().get_key() == z.get_key():
+				y = node.get_parent()
+				if y.get_left().get_key() == node.get_key():
 					y.set_left(virtual)
 				else:
 					y.set_right(virtual)
 				virtual.set_parent(y)
-		elif z.get_left().is_real_node() and not z.get_right().is_real_node():
+		elif node.get_left().is_real_node() and not node.get_right().is_real_node():
 			if root:
-				self.root = z.get_left()
-				z.get_left().set_parent(None)
+				self.root = node.get_left()
+				node.get_left().set_parent(None)
 			else:
-				y = z.get_parent()
-				if y.get_left().get_key() == z.get_key():
-					y.set_left(z.get_left())
+				y = node.get_parent()
+				if y.get_left().get_key() == node.get_key():
+					y.set_left(node.get_left())
 				else:
-					y.set_right(z.get_left())
-				z.get_left().set_parent(y)
-		elif not z.get_left().is_real_node() and z.get_right().is_real_node():
+					y.set_right(node.get_left())
+				node.get_left().set_parent(y)
+		elif not node.get_left().is_real_node() and node.get_right().is_real_node():
 			if root:
-				self.root = z.get_right()
-				z.get_right().set_parent(None)
+				self.root = node.get_right()
+				node.get_right().set_parent(None)
 			else:
-				y = z.get_parent()
-				if y.get_left().get_key() == z.get_key():
-					y.set_left(z.get_right())
+				y = node.get_parent()
+				if y.get_left().get_key() == node.get_key():
+					y.set_left(node.get_right())
 				else:
-					y.set_right(z.get_right())
-				z.get_right().set_parent(y)
+					y.set_right(node.get_right())
+				node.get_right().set_parent(y)
 		else:
-			successor = self.successor(z)
+			successor = self.successor(node)
 			if root:
 				y = successor.get_parent()
 				if self.get_root().get_key() == y.get_key():
@@ -375,23 +375,23 @@ class AVLTree(object):
 				else:
 					y.set_left(successor.get_right())
 					successor.get_right().set_parent(y)
-					z.get_left().set_parent(successor)
-					z.get_right().set_parent(successor)
-					successor.set_left(z.get_left())
-					successor.set_right(z.get_right())
+					node.get_left().set_parent(successor)
+					node.get_right().set_parent(successor)
+					successor.set_left(node.get_left())
+					successor.set_right(node.get_right())
 					successor.set_parent(None)
 					self.root = successor
 			else:
 				x = successor.get_parent()
 				x.set_left(successor.get_right())
 				successor.get_right().set_parent(x)
-				z.get_left().set_parent(successor)
-				z.get_right().set_parent(successor)
-				successor.set_left(z.get_left())
-				successor.set_right(z.get_right())
-				y = z.get_parent()
+				node.get_left().set_parent(successor)
+				node.get_right().set_parent(successor)
+				successor.set_left(node.get_left())
+				successor.set_right(node.get_right())
+				y = node.get_parent()
 				successor.set_parent(y)
-				if y.get_left().get_key() == z.get_key():
+				if y.get_left().get_key() == node.get_key():
 					y.set_left(successor)
 				else:
 					y.set_right(successor)
@@ -565,7 +565,7 @@ class AVLTree(object):
 				c.set_left(x)
 				if abs(c.BF()) == 2:
 					big_tree.perform_rotation(c)
-			self.root = small_tree.root
+			self.root = x
 		else: #the small tree is the higher one
 			a = big_tree.get_root()
 			b = small_tree.get_root()
@@ -581,7 +581,8 @@ class AVLTree(object):
 				c.set_right(x)
 				if abs(c.BF()) == 2:
 					small_tree.perform_rotation(c)
-			self.root = big_tree.root
+			print("here #2", big_tree.avl_to_array())
+			self.root = x
 		return cost
 
 
