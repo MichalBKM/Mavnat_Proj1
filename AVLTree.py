@@ -23,8 +23,8 @@ class AVLNode(object):
 		self.height = -1
 
 	#print func - delete before submitting!!!
-	def __repr__(self):
-		return "<"+str(self.key)+","+str(self.value)+">"
+	#def __repr__(self):
+		#return "<"+str(self.key)+","+str(self.value)+">"
 
 
 	"""returns the left child
@@ -183,7 +183,6 @@ class AVLTree(object):
 		self.tree_size = 0
 
 	"""searches for a AVLNode in the dictionary corresponding to the key
-
 	@type key: int
 	@param key: a key to be searched
 	@rtype: AVLNode
@@ -204,7 +203,6 @@ class AVLTree(object):
 
 
 	"""inserts val at position i in the dictionary
-
 	@type key: int
 	@pre: key currently does not appear in the dictionary
 	@param key: key of item that is to be inserted to self
@@ -318,71 +316,97 @@ class AVLTree(object):
 
 
 	"""deletes node from the dictionary
-
 	@type node: AVLNode
 	@pre: node is a real pointer to a node in self
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-	#TODO
-	def delete(self, z): #don't forget to return the num of rotations + size updating || handle the case that the deleted node is the root
+
+	def delete(self, z):
 		rebalancing = 0
 		virtual = AVLNode(None, None)
-		if self.tree_size == 1: #z is the root - so we delete it and now the tree is empty
-			self.root = None
+		y = None
+		if self.get_root().get_key() == z.get_key():
+			root = True
 		else:
-			if z.get_parent() is not None:
-				x = z.get_parent()
-				prev_height = x.get_height()
-			if z.get_height() == 0:  #z is a leaf
-				if z.get_parent().get_right().is_real_node() and z.get_parent().get_left().is_real_node():
-					if z.is_left_child():
-						z.get_parent().set_left(virtual)
-					else:
-						z.get_parent().set_right(virtual)
-				else:
-					z.set_sons_to_virtual()
-			elif z.get_right() is None or z.get_left() is None:
-				if z.is_left_child():
-					if z.get_left() is not None:
-						z.get_left().set_parent(z.parent)
-						z.get_parent().set_left(z.left)
-					else:
-						z.get_right().set_parent(z.parent)
-						z.get_parent().set_left(z.right)
-				else:
-					if z.get_left() is not None:
-						z.get_left().set_parent(z.parent)
-						z.get_parent().set_right(z.left)
-					else:
-						z.get_right().set_parent(z.parent)
-						z.get_parent().set_right(z.right)
+			root = False
+		if not z.get_left().is_real_node() and not z.get_right().is_real_node():
+			if root:
+				self.root = None
 			else:
-				y = self.successor(z)
-				if y.get_right() is None:
-					if not y.get_parent().get_right().is_real_node():
-						y.get_parent().set_sons_to_virtual()
-					else:
-						y.get_parent().set_left(virtual)
+				y = z.get_parent()
+				if y.get_left().get_key() == z.get_key():
+					y.set_left(virtual)
 				else:
-					y.get_right().set_parent(y.get_parent)
-					y.get_parent().set_left(y.get_right)
-					z.get_left().set_parent(y)
-					z.get_right().set_parent(y)
-					if z.is_left_child():
-						z.get_parent().set_left(y)
-					else:
-						z.get_parent().set_right(y)
-
-			while x is not None:
-				bf = x.BF()
-				if abs(bf)<2 and x.get_height() == prev_height:
-					break
-				elif abs(bf)<2 and x.get_height() != prev_height:
-					x = x.get_parent()
+					y.set_right(virtual)
+				virtual.set_parent(y)
+		elif z.get_left().is_real_node() and not z.get_right().is_real_node():
+			if root:
+				self.root = z.get_left()
+				z.get_left().set_parent(None)
+			else:
+				y = z.get_parent()
+				if y.get_left().get_key() == z.get_key():
+					y.set_left(z.get_left())
 				else:
-					self.perform_rotation(x)
-					x = x.get_parent()
+					y.set_right(z.get_left())
+				z.get_left().set_parent(y)
+		elif not z.get_left().is_real_node() and z.get_right().is_real_node():
+			if root:
+				self.root = z.get_right()
+				z.get_right().set_parent(None)
+			else:
+				y = z.get_parent()
+				if y.get_left().get_key() == z.get_key():
+					y.set_left(z.get_right())
+				else:
+					y.set_right(z.get_right())
+				z.get_right().set_parent(y)
+		else:
+			successor = self.successor(z)
+			if root:
+				y = successor.get_parent()
+				if self.get_root().get_key() == y.get_key():
+					self.root = successor
+					successor.set_left(y.get_left())
+					successor.set_parent(None)
+					y.get_left().set_parent(successor)
+					y = self.get_root()
+				else:
+					y.set_left(successor.get_right())
+					successor.get_right().set_parent(y)
+					z.get_left().set_parent(successor)
+					z.get_right().set_parent(successor)
+					successor.set_left(z.get_left())
+					successor.set_right(z.get_right())
+					successor.set_parent(None)
+					self.root = successor
+			else:
+				x = successor.get_parent()
+				x.set_left(successor.get_right())
+				successor.get_right().set_parent(x)
+				z.get_left().set_parent(successor)
+				z.get_right().set_parent(successor)
+				successor.set_left(z.get_left())
+				successor.set_right(z.get_right())
+				y = z.get_parent()
+				successor.set_parent(y)
+				if y.get_left().get_key() == z.get_key():
+					y.set_left(successor)
+				else:
+					y.set_right(successor)
+				y = x
+		while y is not None:
+			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
+			bf = y.BF()
+			if abs(bf) < 2 and y.get_height() == new_height:  # 3.2 IN ALGORITHM
+				break
+			elif abs(bf) < 2 and y.get_height() != new_height:  # 3.3 IN ALGORITHM
+				y.update_height()
+				rebalancing += 1
+			else:  # abs(bf)==2 3.4 IN ALGORITHM
+				rebalancing += self.perform_rotation(y)
+			y = y.get_parent()
 		self.tree_size -= 1
 		return rebalancing
 
@@ -413,7 +437,6 @@ class AVLTree(object):
 
 
 	"""returns an array representing dictionary 
-
 	@rtype: list
 	@returns: a sorted list according to key of tuples (key, value) representing the data structure
 	"""
@@ -439,7 +462,6 @@ class AVLTree(object):
 
 	
 	"""splits the dictionary at the i'th index
-
 	@type node: AVLNode
 	@pre: node is in self
 	@param node: The intended node in the dictionary according to whom we split
@@ -449,7 +471,7 @@ class AVLTree(object):
 	dictionary larger than node.key.
 	"""
 
-	def split(self, node): #sizes + heights
+	def split(self, node): #update heights??
 		t1 = AVLTree()
 		t2 = AVLTree()
 		if node.get_left().is_real_node(): #if the node has left children
@@ -463,7 +485,7 @@ class AVLTree(object):
 
 		tmp1 = AVLTree()
 		tmp2 = AVLTree()
-		while y is not None:
+		while y is not None: #going up the tree
 			if x is y.get_right():
 				tmp1.root = y.get_left()
 				y.get_left().set_parent(None)
@@ -488,75 +510,50 @@ class AVLTree(object):
 
 
 	"""joins self with key and another AVLTree
-
 	@type tree2: AVLTree 
 	@param tree2: a dictionary to be joined with self
 	@type key: int 
-	@param key: The key separting self with tree2
+	@param key: The key seperating self with tree2
 	@type val: any 
 	@param val: The value attached to key
 	@pre: all keys in self are smaller than key and all keys in tree2 are larger than key
 	@rtype: int
 	@returns: the absolute value of the difference between the height of the AVL trees joined
 	"""
-	"""
-	def join(self, tree2, key, val): #hila - think about fix heights?
-		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
-		tree1 = self
-		x = AVLNode(key, val) #x is the new root
-		if tree2 < x:
-			tmp = tree2 #switch roles for T1 and T2
-			tree2 = tree1
-			tree1 = tmp
-			if tree1.get_root().get_height() < tree2.get_root().get_height():
-				a = tree1.get_root()
-				b = tree2.get_root()
-				while b.get_height() > tree1.get_root().get_height():
-					b = b.get_left()
-				c = b.get_parent()
-				a.set_parent(x)
-				x.set_left(a)
-				b.set_parent(x)
-				x.set_right(b)
-				x.set_parent(c)
-				c.set_left(x)
-				if abs(c.BF())==2:
-					tree2.perform_rotation(c)
-			else: #if tree1.get_root()<x
-				a = tree2.get_root()
-				b = tree1.get_root()
-				while b.get_height() > tree2.get_root().get_height():
-					b = b.get_right()
-				c = b.get_parent()
-				a.set_parent(x)
-				x.set_right(a)
-				b.set_parent(x)
-				x.set_left(b)
-				x.set_parent(c)
-				c.set_right(x)
-				if abs(c.BF())==2:
-					tree2.perform_rotation(c)
 
-		return cost
-		"""
+	def join(self, tree2, key, val):
+		if self.get_root() is None and tree2.get_root() is None: #both trees are empty
+			self.insert(key,val)
+			return 1
 
-	def join(self, tree2, key, val): #think about update heights
+		#one of the trees are empty and the other not
+		if self.get_root() is None: #self is empty
+			orig_height = tree2.get_root().get_height()
+			tree2.insert(key, val)
+			self.root = tree2.root #self is becoming the new tree
+			return orig_height + 2  # original height minus -1 (empty tree), plus 1 = height+2
+		elif tree2.get_root() is None: #tree2 is empty
+			orig_height = self.get_root().get_height()
+			self.insert(key,val) #now self is the new tree
+			return orig_height+2 #original height minus -1 (empty tree), plus 1 = height+2
+
+		#joining two trees that are not empty
 		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
 		x = AVLNode(key, val) #x is the new root
-		t1 = AVLTree()
-		t2 = AVLTree()
+		small_tree = AVLTree() #the tree with the smaller values - will be on the left side of the joined tree
+		big_tree = AVLTree() #the tree with the bigger values - will be on the right side of the joined tree
 		if self.get_root().get_key() < key:
-			t1 = self
-			t2 = tree2
+			small_tree = self
+			big_tree = tree2
 		else:
-			t1 = tree2
-			t2 = self
-		h1 = t1.get_root().get_height()
-		h2 = t2.get_root().get_height()
-		if h1<=h2:
-			a = t1.get_root()
-			b = t2.get_root()
-			while b.get_height() > t1.get_root().get_height():
+			small_tree = tree2
+			big_tree = self
+		h1 = small_tree.get_root().get_height()
+		h2 = big_tree.get_root().get_height()
+		if h1<=h2: #the small tree is also the shorter one
+			a = small_tree.get_root()
+			b = big_tree.get_root()
+			while b.get_height() > small_tree.get_root().get_height():
 				b = b.get_left()
 			c = b.get_parent()
 			a.set_parent(x)
@@ -564,13 +561,15 @@ class AVLTree(object):
 			b.set_parent(x)
 			x.set_right(b)
 			x.set_parent(c)
-			c.set_left(x)
-			if abs(c.BF()) == 2:
-				tree2.perform_rotation(c)
-		else:
-			a = t2.get_root()
-			b = t1.get_root()
-			while b.get_height() > t2.get_root().get_height():
+			if c is not None:
+				c.set_left(x)
+				if abs(c.BF()) == 2:
+					big_tree.perform_rotation(c)
+			self.root = small_tree.root
+		else: #the small tree is the higher one
+			a = big_tree.get_root()
+			b = small_tree.get_root()
+			while b.get_height() > big_tree.get_root().get_height():
 				b = b.get_right()
 			c = b.get_parent()
 			a.set_parent(x)
@@ -578,17 +577,16 @@ class AVLTree(object):
 			b.set_parent(x)
 			x.set_right(b)
 			x.set_parent(c)
-			c.set_right(x)
-			if abs(c.BF()) == 2:
-				tree2.perform_rotation(c)
-		print(t1.avl_to_array())
+			if c is not None:
+				c.set_right(x)
+				if abs(c.BF()) == 2:
+					small_tree.perform_rotation(c)
+			self.root = big_tree.root
 		return cost
 
 
 
-
 	"""returns the root of the tree representing the dictionary
-
 	@rtype: AVLNode
 	@returns: the root, None if the dictionary is empty
 	"""
