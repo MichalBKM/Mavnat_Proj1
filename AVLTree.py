@@ -565,15 +565,17 @@ class AVLTree(object):
 			orig_height = tree2.get_root().get_height()
 			tree2.insert(key, val)
 			self.root = tree2.root #self is becoming the new tree
+			#print("size:", self.size())
 			return orig_height + 2  # original height minus -1 (empty tree), plus 1 = height+2
 		elif tree2.get_root() is None: #tree2 is empty
 			orig_height = self.get_root().get_height()
 			self.insert(key,val) #now self is the new tree
+			#print("size:", self.size())
 			return orig_height+2 #original height minus -1 (empty tree), plus 1 = height+2
 
 		#joining two trees that are not empty
 		cost = abs(self.get_root().get_height()-tree2.get_root().get_height()) + 1
-		x = AVLNode(key, val) #x is the new root
+		x = AVLNode(key, val) #x is the connecting node
 		small_tree = AVLTree() #the tree with the smaller values - will be on the left side of the joined tree
 		big_tree = AVLTree() #the tree with the bigger values - will be on the right side of the joined tree
 		if self.get_root().get_key() < key:
@@ -584,17 +586,20 @@ class AVLTree(object):
 			big_tree = self
 		h1 = small_tree.get_root().get_height()
 		h2 = big_tree.get_root().get_height()
+
 		if h1<=h2: #the small tree is also the shorter one
 			a = small_tree.get_root()
 			b = big_tree.get_root()
 			while b.get_height() > a.get_height() :
 				b = b.get_left()
 			c = b.get_parent()
+			d = c
 			a.set_parent(x)
 			x.set_left(a)
 			b.set_parent(x)
 			x.set_right(b)
 			x.set_parent(c)
+			x.update_height()
 			if c is not None:
 				c.set_left(x)
 			while c is not None:
@@ -604,7 +609,11 @@ class AVLTree(object):
 				else: #abs(bf)==2
 					big_tree.perform_rotation(c)
 				c = c.get_parent()
-			self.root = big_tree.get_root()
+			self.tree_size = small_tree.size() + big_tree.size() + 1
+			if d is not None:
+				self.root = big_tree.get_root()
+			else:
+				self.root = x
 
 		else: #the small tree is the higher one
 			a = big_tree.get_root()
@@ -617,15 +626,19 @@ class AVLTree(object):
 			b.set_parent(x)
 			x.set_right(b)
 			x.set_parent(c)
+			x.update_height()
 			if c is not None:
 				c.set_right(x)
 			while c is not None:
-				if abs(c.BF()) == 2:
-					small_tree.perform_rotation(c)
-				else:
+				bf = c.BF()
+				if abs(bf) < 2:
 					c.update_height()
+				else:
+					small_tree.perform_rotation(c)
 				c = c.get_parent()
 			self.root = small_tree.get_root()
+			self.tree_size = small_tree.size() + big_tree.size() + 1
+
 
 		return cost
 
