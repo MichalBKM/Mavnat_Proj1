@@ -162,11 +162,22 @@ class AVLNode(object):
 			self.height = 1 + max(self.left.height, self.right.height)
 
 
+	def get_max(self):
+		while self.is_real_node():
+			self = self.get_right()
+		return self.get_parent().get_key()
+
+
+
+
+
 """
 A class implementing the ADT Dictionary, using an AVL tree.
 """
 
 class AVLTree(object):
+
+	costs = [] #dont forget to delete before sub
 
 	"""
 	Constructor, you are allowed to add more fields.  
@@ -206,38 +217,6 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 
-	""" #before putting the rotations inside the func
-	def insert(self, key, val):
-		node = AVLNode(key, val)
-		node.set_sons_to_virtual()
-		y = self.Tree_position(key)
-		node.set_parent(y)
-		if y is None:
-			self.root = node
-		elif key< y.get_key():
-			y.set_left(node)
-		else:
-			y.set_right(node)
-		node.update_height()
-		rebalancing = 0
-
-		while y is not None: #and not y.is_real_node()
-			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
-			bf = y.BF()
-			if abs(bf)<2 and y.get_height() == new_height: #3.2 IN ALGORITHM
-				break
-			elif abs(bf)<2 and y.get_height() != new_height: #3.3 IN ALGORITHM
-				y.update_height()
-				rebalancing += 1
-			else: #abs(bf)==2 3.4 IN ALGORITHM
-				rebalancing += self.perform_rotation(y)
-				break
-			y = y.get_parent()
-		self.tree_size += 1
-		return rebalancing
-	"""
-
-
 	def insert(self, key, val):
 		node = AVLNode(key, val)
 		node.set_sons_to_virtual()
@@ -261,11 +240,10 @@ class AVLTree(object):
 				y.update_height()
 				rebalancing += 1
 			else: #abs(bf)==2 3.4 IN ALGORITHM
-				rebalancing += self.perform_rotation(y) #break???
+				rebalancing += self.perform_rotation(y)
 			y = y.get_parent()
 		self.tree_size += 1
 		return rebalancing
-
 
 
 	def Tree_position(self, key):
@@ -341,6 +319,7 @@ class AVLTree(object):
 				self.Left_rotation(y)
 				rebalancing = 1
 		return rebalancing
+
 
 
 
@@ -452,7 +431,6 @@ class AVLTree(object):
 		return rebalancing
 
 
-
 	def minimum(self): #WORKS WELL - DONT EDIT
 		x = self.get_root()
 		if x is None:
@@ -513,7 +491,7 @@ class AVLTree(object):
 	dictionary larger than node.key.
 	"""
 
-	def split(self, node): #update heights??
+	def split(self, node):
 		t1 = AVLTree()
 		t2 = AVLTree()
 		if node.get_left().is_real_node(): #if the node has left children
@@ -524,23 +502,24 @@ class AVLTree(object):
 			node.get_left().set_parent(None)
 		y = node.get_parent()
 		x = node
-
+		cost = 0 #delete before submittion
 		tmp1 = AVLTree()
 		tmp2 = AVLTree()
 		while y is not None: #going up the tree
 			if x is y.get_right():
 				tmp1.root = y.get_left()
 				y.get_left().set_parent(None)
-				t1.join(tmp1, y.get_key(), y.get_value())
+				cost = t1.join(tmp1, y.get_key(), y.get_value()) #change to without cost
+				AVLTree.costs.append(cost) #delete before submission
 				tmp1.root = None
 			else:
 				tmp2.root = y.get_right()
 				y.get_right().set_parent(None)
-				t2.join(tmp2, y.get_key(), y.get_value())
+				cost = t2.join(tmp2, y.get_key(), y.get_value()) #change to without cost
+				AVLTree.costs.append(cost) #delete before submission
 				tmp2.root = None
 			x = y
 			y = y.get_parent()
-
 		return [t1, t2]
 
 
@@ -641,10 +620,7 @@ class AVLTree(object):
 			self.root = small_tree.get_root()
 			self.tree_size = small_tree.size() + big_tree.size() + 1
 
-
 		return cost
-
-
 
 
 
@@ -654,3 +630,5 @@ class AVLTree(object):
 	"""
 	def get_root(self): #WORKS WELL
 		return self.root
+
+

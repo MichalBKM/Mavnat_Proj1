@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="tester &quot;tests&quot; + Unit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UnitTestAVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/UnitTestAVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -233,7 +232,13 @@
       <option name="presentableId" value="LOCAL‎00022" />
       <updated>1708783271968</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL‎00023" summary="tester &quot;tests&quot; + Unit">
+      <created>1708786158230</created>
+      <option name="number" value="LOCAL‎00023" />
+      <option name="presentableId" value="LOCAL‎00023" />
+      <updated>1708786158230</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,7 +288,8 @@
     <MESSAGE value="after zoom (:" />
     <MESSAGE value="after morning zoom (:" />
     <MESSAGE value="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)" />
-    <option name="LAST_COMMIT_MESSAGE" value="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)" />
+    <MESSAGE value="tester &quot;tests&quot; + Unit" />
+    <option name="LAST_COMMIT_MESSAGE" value="tester &quot;tests&quot; + Unit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
