@@ -1,6 +1,6 @@
 import unittest
-from avl_template import AVLTree, AVLNode
-
+from AVLTree import AVLTree, AVLNode
+from graph_tree import draw_binary_tree
 
 class TestAVLTree(unittest.TestCase):
 
@@ -209,11 +209,13 @@ class TestAVLTree(unittest.TestCase):
         avl_tree.insert(12, "12")
         avl_tree.insert(9, "9")
         avl_tree.insert(13, "13")
+        #draw_binary_tree(avl_tree.get_root())
 
 
 
         # Delete a node with two children
         ans = avl_tree.delete(avl_tree.search(11))
+        #draw_binary_tree(avl_tree.get_root())
 
         # Check that the node has been deleted and the successor node has taken its place
         self.assertIsNone(avl_tree.search(11))
@@ -243,12 +245,12 @@ class TestAVLTree(unittest.TestCase):
         avl_tree.insert(12, "12")
         avl_tree.insert(9, "9")
         avl_tree.insert(13, "13")
-
+        #draw_binary_tree(avl_tree.get_root())
 
 
         # Delete a node with two children
         avl_tree.delete(avl_tree.search(24))
-
+        #draw_binary_tree(avl_tree.get_root())
         # Check that the node has been deleted and the successor node has taken its place
         self.assertIsNone(avl_tree.search(24))
         self.assertEqual(avl_tree.root.get_value(), "11")

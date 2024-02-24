@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="after morning zoom (:">
+    <list default="true" id="3f0879e0-7ed9-4247-b036-9f43f88619cd" name="Changes" comment="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/AVLTree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnitTestAVLTree.py" beforeDir="false" afterPath="$PROJECT_DIR$/UnitTestAVLTree.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +227,13 @@
       <option name="presentableId" value="LOCAL‎00021" />
       <updated>1708775654354</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL‎00022" summary="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)">
+      <created>1708783271968</created>
+      <option name="number" value="LOCAL‎00022" />
+      <option name="presentableId" value="LOCAL‎00022" />
+      <updated>1708783271968</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,7 +282,8 @@
     <MESSAGE value="Delete - FIXED" />
     <MESSAGE value="after zoom (:" />
     <MESSAGE value="after morning zoom (:" />
-    <option name="LAST_COMMIT_MESSAGE" value="after morning zoom (:" />
+    <MESSAGE value="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)" />
+    <option name="LAST_COMMIT_MESSAGE" value="tester &quot;tests&quot; - works OK except testHelper.assert_neighbors(tree, 12, 10, None, 2)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

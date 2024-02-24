@@ -446,9 +446,11 @@ class AVLTree(object):
 				rebalancing += 1
 			else:  # abs(bf)==2 3.4 IN ALGORITHM
 				rebalancing += self.perform_rotation(y)
+				y = y.get_parent() #we added this because of UNITtest
 			y = y.get_parent()
 		self.tree_size -= 1
 		return rebalancing
+
 
 
 	def minimum(self): #WORKS WELL - DONT EDIT
