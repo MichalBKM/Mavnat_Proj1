@@ -206,6 +206,7 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 
+	""" #before putting the rotations inside the func
 	def insert(self, key, val):
 		node = AVLNode(key, val)
 		node.set_sons_to_virtual()
@@ -234,6 +235,37 @@ class AVLTree(object):
 			y = y.get_parent()
 		self.tree_size += 1
 		return rebalancing
+	"""
+
+
+	def insert(self, key, val):
+		node = AVLNode(key, val)
+		node.set_sons_to_virtual()
+		y = self.Tree_position(key)
+		node.set_parent(y)
+		if y is None:
+			self.root = node
+		elif key< y.get_key():
+			y.set_left(node)
+		else:
+			y.set_right(node)
+		node.update_height()
+		rebalancing = 0
+
+		while y is not None:
+			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
+			bf = y.BF()
+			if abs(bf)<2 and y.get_height() == new_height: #3.2 IN ALGORITHM
+				break
+			elif abs(bf)<2 and y.get_height() != new_height: #3.3 IN ALGORITHM
+				y.update_height()
+				rebalancing += 1
+			else: #abs(bf)==2 3.4 IN ALGORITHM
+				rebalancing += self.perform_rotation(y) #break???
+			y = y.get_parent()
+		self.tree_size += 1
+		return rebalancing
+
 
 
 	def Tree_position(self, key):
@@ -265,8 +297,9 @@ class AVLTree(object):
 		B.set_parent(A)
 		if is_root:
 			self.root = A
-		A.update_height()
 		B.update_height()
+		A.update_height()
+
 
 	def Left_rotation(self,B):
 		is_root = False
@@ -285,8 +318,10 @@ class AVLTree(object):
 		B.set_parent(A)
 		if is_root:
 			self.root = A
-		A.update_height()
 		B.update_height()
+		A.update_height()
+
+
 
 	def perform_rotation(self, y):
 		if y.BF() == 2:
@@ -297,8 +332,8 @@ class AVLTree(object):
 			else:  # +1 or 0 for delete , +1 only for insert
 				self.Right_rotation(y)
 				rebalancing = 1
-		else:  #BF==-2
-			if y.get_left().BF() == 1:
+		else:  # BF==-2
+			if y.get_right().BF() == 1:
 				self.Right_rotation(y.get_right())
 				self.Left_rotation(y)
 				rebalancing = 2
@@ -306,6 +341,8 @@ class AVLTree(object):
 				self.Left_rotation(y)
 				rebalancing = 1
 		return rebalancing
+
+
 
 
 	"""deletes node from the dictionary
@@ -550,7 +587,7 @@ class AVLTree(object):
 		if h1<=h2: #the small tree is also the shorter one
 			a = small_tree.get_root()
 			b = big_tree.get_root()
-			while b.get_height() > small_tree.get_root().get_height():
+			while b.get_height() > a.get_height() :
 				b = b.get_left()
 			c = b.get_parent()
 			a.set_parent(x)
@@ -560,13 +597,19 @@ class AVLTree(object):
 			x.set_parent(c)
 			if c is not None:
 				c.set_left(x)
-				if abs(c.BF()) == 2:
+			while c is not None:
+				bf = c.BF()
+				if abs(bf) < 2:
+					c.update_height()
+				else: #abs(bf)==2
 					big_tree.perform_rotation(c)
-			self.root = x
+				c = c.get_parent()
+			self.root = big_tree.get_root()
+
 		else: #the small tree is the higher one
 			a = big_tree.get_root()
 			b = small_tree.get_root()
-			while b.get_height() > big_tree.get_root().get_height():
+			while b.get_height() > a.get_height():
 				b = b.get_right()
 			c = b.get_parent()
 			a.set_parent(x)
@@ -576,10 +619,18 @@ class AVLTree(object):
 			x.set_parent(c)
 			if c is not None:
 				c.set_right(x)
+			while c is not None:
 				if abs(c.BF()) == 2:
 					small_tree.perform_rotation(c)
-			self.root = x
+				else:
+					c.update_height()
+				c = c.get_parent()
+			self.root = small_tree.get_root()
+
 		return cost
+
+
+
 
 
 	"""returns the root of the tree representing the dictionary

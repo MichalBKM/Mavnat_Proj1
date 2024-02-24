@@ -3,19 +3,25 @@ from tests import tests
 from graph_tree import draw_binary_tree
 
 def main():
-    test = tests()
-    test.testInsertDelete()
-    """
-    tree = AVLTree()
-    tree.insert(23,23)
-    tree.insert(4,4)
-    tree.insert(30,30)
-    tree.insert(11,11)
-    tree.insert(7,7)
-    print(tree.avl_to_array())
-    draw_binary_tree(tree.get_root())
-    """
+    #test = tests()
+    #test.test_join()
+    tree1 = AVLTree()
+    tree1.insert(4,4)
+    tree1.insert(2,2)
+    tree1.insert(5,5)
+
+    tree2 = AVLTree()
+    tree2.insert(20,20)
+    tree2.insert(16,16)
+    tree2.insert(22,22)
+    tree2.insert(14,14)
+    tree2.insert(18,18)
+    #draw_binary_tree(tree1.get_root())
+    #draw_binary_tree(tree2.get_root())
+    tree1.join(tree2,10,10)
+    draw_binary_tree(tree1.get_root())
     print("end")
+
 
 
 if __name__ == '__main__':

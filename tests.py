@@ -1,4 +1,5 @@
 from AVLTree import AVLTree, AVLNode
+from graph_tree import draw_binary_tree
 
 AVLNode.__repr__ = lambda self: str(self.get_key())
 
@@ -48,7 +49,7 @@ class tests:
         testHelper.assert_neighbors(tree, 7, None, None,8)
         testHelper.assert_neighbors(tree, 11, 4, 23,8)
         testHelper.test_root(tree, 11)
-        
+
         # test L rotation
         testHelper.test_deletion(tree, 7, 2)
         testHelper.assert_neighbors(tree, 11, 4, 15, 7)
@@ -84,6 +85,7 @@ class tests:
         for tree in tree_tuple:
             #  tests for trees [4, 2, 5] and [20, 22, 16, 18, 14]
             #  balancing should be called on node c and node x
+            #draw_binary_tree(tree.get_root())
             testHelper.test_root(tree, 10)
             testHelper.assert_neighbors(tree, 10, 4, 20, 9)
             testHelper.test_height(tree, 10, 3)
