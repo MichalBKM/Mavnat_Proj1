@@ -142,27 +142,39 @@ class AVLNode(object):
 	def is_real_node(self): #DONT EDIT
 		return self.get_key() is not None
 
+	"""sets left and right sons to virtual nodes
+ 	"""
 	def set_sons_to_virtual(self): #DONT EDIT
+		#creates virtual children
 		virtual_left = AVLNode(None, None)
 		virtual_right = AVLNode(None, None)
+		#links node and virtual nodes
 		self.set_left(virtual_left)
 		self.set_right(virtual_right)
 		virtual_left.set_parent(self)
 		virtual_right.set_parent(self)
 
+	"""returns the balance factor of the node
+
+  	@rtype: int
+   	@returns: the balance factor of the node
+   	"""
 	#BF = Balance_Factor
 	def BF(self): #DONT EDIT
 		return self.left.get_height() - self.right.get_height()
 
-
+	"""updates the height of the node according to the heights of its children
+ 	"""
 	def update_height(self):
+		#if the node is virtual, its height should be -1
 		if not self.is_real_node():
 			self.height = -1
+		#else, its height should be calculated according to the heights of its children
 		else:
 			self.height = 1 + max(self.left.height, self.right.height)
 
 
-	def get_max(self):
+	def get_max(self): #delete later?
 		while self.is_real_node():
 			self = self.get_right()
 		return self.get_parent().get_key()
@@ -193,8 +205,10 @@ class AVLTree(object):
 	@rtype: AVLNode
 	@returns: the AVLNode corresponding to key or None if key is not found.
 	"""
+	#time complexity: O(log n)
 	def search(self,key):
 		x = self.get_root()
+		#comparing x's key to the input key until we traverse the tree and find x or return None if we don't
 		while x is not None and x.is_real_node():
 			if key == x.get_key():
 				return x
@@ -216,14 +230,15 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-
+	#time complexity: O(log n)
 	def insert(self, key, val):
 		node = AVLNode(key, val)
 		node.set_sons_to_virtual()
-		y = self.Tree_position(key)
+		y = self.Tree_position(key) #finding the correct position for insertion of the node
 		node.set_parent(y)
-		if y is None:
+		if y is None: #self is an empty tree
 			self.root = node
+		#checking if the node should be a right or left child
 		elif key< y.get_key():
 			y.set_left(node)
 		else:
@@ -231,6 +246,7 @@ class AVLTree(object):
 		node.update_height()
 		rebalancing = 0
 
+		#restoring the shape of the tree as taught in class
 		while y is not None:
 			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
 			bf = y.BF()
@@ -239,13 +255,21 @@ class AVLTree(object):
 			elif abs(bf)<2 and y.get_height() != new_height: #3.3 IN ALGORITHM
 				y.update_height()
 				rebalancing += 1
-			else: #abs(bf)==2 3.4 IN ALGORITHM
+			else: #abs(bf)==2, 3.4 IN ALGORITHM
 				rebalancing += self.perform_rotation(y)
 			y = y.get_parent()
 		self.tree_size += 1
 		return rebalancing
 
 
+	"""find the correct position for insertion to the tree given a key
+
+ 	@type key: int
+	@pre: key currently does not appear in the dictionary
+	@param: key of item that is to be inserted to self
+ 	@rtype: int
+ 	@returns: the correct position for insertion to the tree
+ 	"""
 	def Tree_position(self, key):
 		x = self.get_root()
 		y = None
@@ -258,6 +282,11 @@ class AVLTree(object):
 		return y
 
 
+	"""performing a right rotation as taught in class
+
+ 	@type B: AVLNode
+ 	"""
+	#time complexity: O(1)
 	def Right_rotation(self,B):
 		is_root = False
 		if B.get_key() == self.get_root().get_key():
