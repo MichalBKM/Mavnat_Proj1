@@ -262,7 +262,7 @@ class AVLTree(object):
 		return rebalancing
 
 
-	"""find the correct position for insertion to the tree given a key
+	"""finds the correct position for insertion to the tree given a key
 
  	@type key: int
 	@pre: key currently does not appear in the dictionary
@@ -282,9 +282,10 @@ class AVLTree(object):
 		return y
 
 
-	"""performing a right rotation as taught in class
+	"""performs a right rotation as taught in class in order to balance the tree
 
  	@type B: AVLNode
+  	@param B: the node that has a balance factor of 2
  	"""
 	#time complexity: O(1)
 	def Right_rotation(self,B):
@@ -296,10 +297,10 @@ class AVLTree(object):
 		B.get_left().set_parent(B)
 		A.set_right(B)
 		A.set_parent(B.get_parent())
-		if A.get_parent() is not None:
-			if B.get_parent().get_left().get_key() == B.get_key():
+		if A.get_parent() is not None: #if B wasn't the root
+			if B.get_parent().get_left().get_key() == B.get_key(): #if B was a left child
 				A.get_parent().set_left(A)
-			else:
+			else: #if B was a right child
 				A.get_parent().set_right(A)
 		B.set_parent(A)
 		if is_root:
@@ -308,6 +309,12 @@ class AVLTree(object):
 		A.update_height()
 
 
+	"""performs a left rotation as taught in class in order to balance the tree
+
+ 	@type B: AVLNode
+  	@param B: the node that has a balance factor of -2
+ 	"""
+	#time complexity: O(1)
 	def Left_rotation(self,B):
 		is_root = False
 		if B.get_key() == self.get_root().get_key():
@@ -317,10 +324,10 @@ class AVLTree(object):
 		B.get_right().set_parent(B)
 		A.set_left(B)
 		A.set_parent(B.get_parent())
-		if A.get_parent() is not None:
-			if B.get_parent().get_left().get_key() == B.get_key():
+		if A.get_parent() is not None: #if B wasn't the root
+			if B.get_parent().get_left().get_key() == B.get_key(): #if B was a left child
 				A.get_parent().set_left(A)
-			else:
+			else: #if B was a right child
 				A.get_parent().set_right(A)
 		B.set_parent(A)
 		if is_root:
@@ -330,6 +337,14 @@ class AVLTree(object):
 
 
 
+	"""performs a rotation according to the bf of y and it's son in order to balance the tree
+
+ 	@type y: AVLNode
+  	@param y: the node that has a balance factor of 2 or -2
+   	@rtype: int
+    	@returns: the number of rebalancing operations when performing the rotation
+ 	"""
+	#time complexity: O(1)
 	def perform_rotation(self, y):
 		if y.BF() == 2:
 			if y.get_left().BF() == -1:
@@ -359,7 +374,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
-
+	#time complexity: O(log n)
 	def delete(self, node):
 		rebalancing = 0
 		virtual = AVLNode(None, None)
