@@ -375,7 +375,7 @@ class AVLTree(object):
 	@returns: the number of rebalancing operation due to AVL rebalancing
 	"""
 	#time complexity: O(log n)
-	def delete(self, node):
+	def delete(self, node): #finish documentation
 		rebalancing = 0
 		virtual = AVLNode(None, None)
 		y = None
@@ -386,37 +386,37 @@ class AVLTree(object):
 		if not node.get_left().is_real_node() and not node.get_right().is_real_node(): #node is a leaf
 			if root:
 				self.root = None
-			else:
+			else: #updating the child of node's parent
 				y = node.get_parent()
-				if y.get_left().get_key() == node.get_key():
+				if y.get_left().get_key() == node.get_key(): #node is the left child of y
 					y.set_left(virtual)
-				else:
+				else: #node is the right child of y
 					y.set_right(virtual)
 				virtual.set_parent(y)
 		elif node.get_left().is_real_node() and not node.get_right().is_real_node(): #node has only left child
-			if root:
+			if root: #self is AVL so it's only the root and its left child
 				self.root = node.get_left()
 				node.get_left().set_parent(None)
-			else:
+			else: #bypassing the node by connecting it's parent to it's child
 				y = node.get_parent()
-				if y.get_left().get_key() == node.get_key():
+				if y.get_left().get_key() == node.get_key(): #node is the left child of y
 					y.set_left(node.get_left())
-				else:
+				else: #node is the left child of y
 					y.set_right(node.get_left())
 				node.get_left().set_parent(y)
 		elif not node.get_left().is_real_node() and node.get_right().is_real_node(): #node has only right child
-			if root:
+			if root: #self is AVL so it's only the root and its right child
 				self.root = node.get_right()
 				node.get_right().set_parent(None)
-			else:
+			else: #bypassing the node by connecting it's parent to it's child
 				y = node.get_parent()
-				if y.get_left().get_key() == node.get_key():
+				if y.get_left().get_key() == node.get_key(): #node is the left child of y
 					y.set_left(node.get_right())
-				else:
+				else: #node is the right child of y
 					y.set_right(node.get_right())
 				node.get_right().set_parent(y)
 		else: #node has two children
-			successor = self.successor(node)
+			successor = self.successor(node) #successor has no left child, because otherwise it's left child would have been the successor
 			if root:
 				y = successor.get_parent()
 				if self.get_root().get_key() == y.get_key():
@@ -475,6 +475,12 @@ class AVLTree(object):
 		return rebalancing
 
 
+	"""returns the node with the minimal key
+
+ 	@rtype = AVLNode
+  	@returns: the node with the minimal key or None if there are no elements in the dictionary
+ 	"""
+	#time complexity: O(log n)
 	def minimum(self): #WORKS WELL - DONT EDIT
 		x = self.get_root()
 		if x is None:
