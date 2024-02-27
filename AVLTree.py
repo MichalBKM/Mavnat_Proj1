@@ -349,7 +349,7 @@ class AVLTree(object):
 			else:  # +1 or 0 for delete , +1 only for insert
 				self.Right_rotation(y)
 				rebalancing = 1
-		else:  # BF==-2
+		else:  # BF == -2
 			if y.get_right().BF() == 1:
 				self.Right_rotation(y.get_right())
 				self.Left_rotation(y)
@@ -414,9 +414,9 @@ class AVLTree(object):
 			successor = self.successor(node) #successor has no left child, because otherwise it's left child would have been the successor
 			if root:
 				y = successor.get_parent()
-				if self.get_root().get_key() == y.get_key():
-					self.root = successor
-					successor.set_left(y.get_left())
+				if self.get_root().get_key() == y.get_key(): #the root has a right child which doesn't a left child
+					self.root = successor #right child becomes the new root
+					successor.set_left(y.get_left()) #left child of the old root becomes left child of the new root
 					successor.set_parent(None)
 					y.get_left().set_parent(successor)
 					y = self.get_root()
@@ -462,7 +462,7 @@ class AVLTree(object):
 			elif abs(bf) < 2 and y.get_height() != new_height:  # 3.3 IN ALGORITHM
 				y.update_height()
 				rebalancing += 1
-			else:  # abs(bf)==2 3.4 IN ALGORITHM
+			else:  # abs(bf)==2, 3.4 IN ALGORITHM
 				rebalancing += self.perform_rotation(y)
 				y = y.get_parent() #we added this because of UNITtest
 			y = y.get_parent()
