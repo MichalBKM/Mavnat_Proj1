@@ -27,6 +27,7 @@ class AVLNode(object):
 	@rtype: AVLNode
 	@returns: the left child of self, None if there is no left child (if self is virtual)
 	"""
+	#time complexity: O(1)
 	def get_left(self):
 		return self.left
 
@@ -36,6 +37,7 @@ class AVLNode(object):
 	@rtype: AVLNode
 	@returns: the right child of self, None if there is no right child (if self is virtual)
 	"""
+	#time complexity: O(1)
 	def get_right(self):
 		return self.right
 
@@ -45,6 +47,7 @@ class AVLNode(object):
 	@rtype: AVLNode
 	@returns: the parent of self, None if there is no parent
 	"""
+	#time complexity: O(1)
 	def get_parent(self):
 		return self.parent
 
@@ -54,6 +57,7 @@ class AVLNode(object):
 	@rtype: int or None
 	@returns: the key of self, None if the node is virtual
 	"""
+	#time complexity: O(1)
 	def get_key(self):
 		return self.key
 
@@ -63,6 +67,7 @@ class AVLNode(object):
 	@rtype: any
 	@returns: the value of self, None if the node is virtual
 	"""
+	#time complexity: O(1)
 	def get_value(self):
 		return self.value
 
@@ -71,6 +76,7 @@ class AVLNode(object):
 	@rtype: int
 	@returns: the height of self, -1 if the node is virtual
 	"""
+	#time complexity: O(1)
 	def get_height(self):
 		if not self.is_real_node():
 			return -1
@@ -81,6 +87,7 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
+	#time complexity: O(1)
 	def set_left(self, node):
 		self.left = node
 
@@ -89,7 +96,7 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
-
+	#time complexity: O(1)
 	def set_right(self, node):
 		self.right = node
 
@@ -99,6 +106,7 @@ class AVLNode(object):
 	@type node: AVLNode
 	@param node: a node
 	"""
+	#time complexity: O(1)
 	def set_parent(self, node):
 		self.parent = node
 
@@ -108,6 +116,7 @@ class AVLNode(object):
 	@type key: int or None
 	@param key: key
 	"""
+	#time complexity: O(1)
 	def set_key(self, key):
 		self.key = key
 
@@ -117,6 +126,7 @@ class AVLNode(object):
 	@type value: any
 	@param value: data
 	"""
+	#time complexity: O(1)
 	def set_value(self, value):
 		self.value = value
 
@@ -126,6 +136,7 @@ class AVLNode(object):
 	@type h: int
 	@param h: the height
 	"""
+	#time complexity: O(1)
 	def set_height(self, h):
 		self.height = h
 
@@ -135,11 +146,13 @@ class AVLNode(object):
 	@rtype: bool
 	@returns: False if self is a virtual node, True otherwise.
 	"""
+	#time complexity: O(1)
 	def is_real_node(self):
 		return self.get_key() is not None
 
 	"""sets left and right sons to virtual nodes
  	"""
+	#time complexity: O(1)
 	def set_sons_to_virtual(self):
 		#creates virtual children
 		virtual_left = AVLNode(None, None)
@@ -155,12 +168,14 @@ class AVLNode(object):
   	@rtype: int
    	@returns: the balance factor of the node
    	"""
+	#time complexity: O(1)
 	#BF = Balance_Factor
 	def BF(self):
 		return self.left.get_height() - self.right.get_height()
 
 	"""updates the height of the node according to the heights of its children
  	"""
+	#time complexity: O(1)
 	def update_height(self):
 		#if the node is virtual, its height should be -1
 		if not self.is_real_node():
@@ -169,11 +184,6 @@ class AVLNode(object):
 		else:
 			self.height = 1 + max(self.left.height, self.right.height)
 
-
-	def get_max(self): #delete later?
-		while self.is_real_node():
-			self = self.get_right()
-		return self.get_parent().get_key()
 
 
 
@@ -265,6 +275,7 @@ class AVLTree(object):
  	@rtype: int
  	@returns: the correct position for insertion to the tree
  	"""
+	#time complexity: O(log n)
 	def Tree_position(self, key):
 		x = self.get_root()
 		y = None
@@ -379,7 +390,7 @@ class AVLTree(object):
 		else:
 			root = False
 		if not node.get_left().is_real_node() and not node.get_right().is_real_node(): #node is a leaf
-			if root:
+			if root: #tree contains only one node
 				self.root = None
 			else: #updating the child of node's parent
 				y = node.get_parent()
@@ -390,7 +401,7 @@ class AVLTree(object):
 				virtual.set_parent(y)
 		elif node.get_left().is_real_node() and not node.get_right().is_real_node(): #node has only left child
 			if root: #self is AVL so it's only the root and its left child
-				self.root = node.get_left()
+				self.root = node.get_left() #left child becomes root
 				node.get_left().set_parent(None)
 			else: #bypassing the node by connecting it's parent to it's child
 				y = node.get_parent()
@@ -401,7 +412,7 @@ class AVLTree(object):
 				node.get_left().set_parent(y)
 		elif not node.get_left().is_real_node() and node.get_right().is_real_node(): #node has only right child
 			if root: #self is AVL so it's only the root and its right child
-				self.root = node.get_right()
+				self.root = node.get_right() #right child becomes root
 				node.get_right().set_parent(None)
 			else: #bypassing the node by connecting it's parent to it's child
 				y = node.get_parent()
@@ -415,14 +426,18 @@ class AVLTree(object):
 			if root:
 				y = successor.get_parent()
 				if self.get_root().get_key() == y.get_key(): #the root has a right child which doesn't a left child
-					self.root = successor #right child becomes the new root
-					successor.set_left(y.get_left()) #left child of the old root becomes left child of the new root
+					#right child (successor) becomes the new root
+					self.root = successor
+					#left child of the old root becomes left child of the new root
+					successor.set_left(y.get_left())
 					successor.set_parent(None)
 					y.get_left().set_parent(successor)
 					y = self.get_root()
-				else:
+				else: #right child has a left child
+					#right child of successor becomes left child of y
 					y.set_left(successor.get_right())
 					successor.get_right().set_parent(y)
+					#successor becomes the new root
 					node.get_left().set_parent(successor)
 					node.get_right().set_parent(successor)
 					successor.set_left(node.get_left())
@@ -431,9 +446,12 @@ class AVLTree(object):
 					self.root = successor
 			else:
 				x = successor.get_parent()
-				if x is node:
+				#successor has no left child, because otherwise it's left child would have been the successor
+				if x is node: #right child is the successor
+					#left child of node becomes left child of the successor
 					node.get_left().set_parent(successor)
 					successor.set_left(x.get_left())
+					#parent of node becomes the parent of the successor
 					successor.set_parent(x.get_parent())
 					if x.get_parent().get_left().get_key() == x.get_key():
 						x.get_parent().set_left(successor)
@@ -441,8 +459,10 @@ class AVLTree(object):
 						x.get_parent().set_right(successor)
 					y = successor
 				else:
+					#right child of successor becomes left child of x
 					x.set_left(successor.get_right())
 					successor.get_right().set_parent(x)
+					#replacing node with successor node
 					node.get_left().set_parent(successor)
 					node.get_right().set_parent(successor)
 					successor.set_left(node.get_left())
@@ -453,7 +473,7 @@ class AVLTree(object):
 						y.set_left(successor)
 					else:
 						y.set_right(successor)
-					y = x
+					y = x #balancing should start from successor's old parent because it's the lowest node that we changed its children
 		while y is not None:
 			new_height = 1 + max(y.get_left().get_height(), y.get_right().get_height())
 			bf = y.BF()
@@ -464,7 +484,7 @@ class AVLTree(object):
 				rebalancing += 1
 			else:  # abs(bf)==2, 3.4 IN ALGORITHM
 				rebalancing += self.perform_rotation(y)
-				y = y.get_parent() #we added this because of UNITtest
+				y = y.get_parent()
 			y = y.get_parent()
 		self.tree_size -= 1
 		return rebalancing
@@ -492,6 +512,7 @@ class AVLTree(object):
    	@rtype: AVLNode
     	@returns: the successor of the node, None if the node is has the maximal key or its the only node in the tree
  	"""
+	#time complexity: O(log n)
 	def successor(self, x):
 		if not x.is_real_node(): #x is virtual
 			return None
@@ -530,6 +551,7 @@ class AVLTree(object):
 	@rtype: int
 	@returns: the number of items in dictionary 
 	"""
+	#time complexity: O(1)
 	def size(self):
 		return self.tree_size
 
@@ -685,6 +707,7 @@ class AVLTree(object):
 	@rtype: AVLNode
 	@returns: the root, None if the dictionary is empty
 	"""
+	#time complexity: O(1)
 	def get_root(self):
 		return self.root
 
