@@ -291,7 +291,7 @@ class AVLTree(object):
 	"""performs a right rotation as taught in class in order to balance the tree
 
  	@type B: AVLNode
-  	@param B: the node that has a balance factor of 2
+  	@param B: the node that we want to perform the rotation on
  	"""
 	#time complexity: O(1)
 	def Right_rotation(self,B):
@@ -318,7 +318,7 @@ class AVLTree(object):
 	"""performs a left rotation as taught in class in order to balance the tree
 
  	@type B: AVLNode
-  	@param B: the node that has a balance factor of -2
+  	@param B: the node that we want to perform the rotation on
  	"""
 	#time complexity: O(1)
 	def Left_rotation(self,B):
@@ -344,9 +344,10 @@ class AVLTree(object):
 
 
 	"""performs a rotation according to the bf of y and it's son in order to balance the tree
-
+	
  	@type y: AVLNode
-  	@param y: the node that has a balance factor of 2 or -2
+  	@pre y: y has a balance factor of 2 or -2
+  	@param y: the node that we want to perform the rotation on
    	@rtype: int
     	@returns: the number of rebalancing operations when performing the rotation
  	"""
@@ -510,7 +511,7 @@ class AVLTree(object):
  	@type x: AVLNode
   	@param: the node whose successor is requested
    	@rtype: AVLNode
-    	@returns: the successor of the node, None if the node is has the maximal key or its the only node in the tree
+    	@returns: the successor of the node, None if the node has the maximal key or it's the only node in the tree
  	"""
 	#time complexity: O(log n)
 	def successor(self, x):
